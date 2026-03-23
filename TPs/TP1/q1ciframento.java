@@ -1,6 +1,8 @@
 package TPs.TP1;
 
 public class q1ciframento {
+        
+    }
 
      // aplica o ciframento em cada caractere da string
     public void aplicar (String msg) {
