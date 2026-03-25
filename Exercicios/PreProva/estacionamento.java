@@ -2,7 +2,7 @@ package Exercicios.PreProva;
 
 import java.util.Scanner;
 
-public class estacionamento {
+public class Estacionamento {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

@@ -1,7 +1,7 @@
 package Exercicios.PreProva;
 import java.util.Scanner;
 
-public class tenis {
+public class Tenis {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         int vitoria = 0;
