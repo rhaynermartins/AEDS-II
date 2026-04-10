@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class q11inversaor { 
 
-    // função recursiva para calcular o tamanho da string
+    // 1) função recursiva para calcular o tamanho da string
     public static int tamanho(String str, int i) {
         if (i == str.length()) { // caso base, chegou ao final da string
             return 0; // não há mais caracteres para contar
@@ -10,7 +10,7 @@ public class q11inversaor {
         return 1 + tamanho(str, i + 1); // conta o caractere atual e chama para o próximo
     }
     
-    // função para verificar se a string é "FIM"
+    // 2)função para verificar se a string é "FIM"
     public static boolean ehFim(String str) {
         if (str.length() == 3 && // verifica se o tamanho é 3
             str.charAt(0) == 'F' && // verifica o primeiro caractere
@@ -22,7 +22,7 @@ public class q11inversaor {
         return false; // caso contrário, retorna falso
     }
 
-    // função recursiva para imprimir a string invertida
+    // 3) função recursiva para imprimir a string invertida
     public static void inverte(String str, int i) {
         if (i < 0) { // caso base, passou do início da string
             return; // encerra a recursão

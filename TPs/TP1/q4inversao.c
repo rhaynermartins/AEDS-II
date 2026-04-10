@@ -1,7 +1,7 @@
 #include <stdio.h>  
 #include <stdlib.h>  
 
-// calcula manualmente o tamanho da string
+// 1) calcula manualmente o tamanho da string
 int tamanho(char str[]) { // recebe uma string
     int i = 0; 
 
@@ -12,7 +12,7 @@ int tamanho(char str[]) { // recebe uma string
     return i; // resumo: retorna a quantidade de caracteres
 }
 
-// compara manualmente se a string é "FIM"
+// 2) compara manualmente se a string é "FIM"
 int ehFim(char str[]) { 
     if (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0') { // verifica caractere por caractere
         return 1; // retorna 1 se for igual a "FIM"
@@ -21,7 +21,7 @@ int ehFim(char str[]) {
     return 0; // retorna 0 se não for "FIM"
 }
 
-// imprime a string invertida
+// 3) imprime a string invertida
 void inverte(char str[]) { 
     int i; // variável de controle
     int tam = tamanho(str); // guarda o tamanho da string

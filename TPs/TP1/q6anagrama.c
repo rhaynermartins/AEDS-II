@@ -1,140 +1,87 @@
-#include <stdio.h>  
-#include <stdlib.h>  
+#include <stdio.h> 
+#include <stdlib.h> 
 
-// calcula manualmente o tamanho de uma string
-int tamanho(char str[]) { 
-    int i = 0; 
-
-    while (str[i] != '\0') { // percorre até encontrar o caractere de fim de string
-        i++; 
-    }
-
-    return i; // resumo: retorna a quantidade de caracteres
-}
-// verifica manualmente se a string é "FIM"
-int ehFim(char str[]) { 
-    if (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0') { // compara caractere por caractere
-        return 1; // retorna 1 se for "FIM"
-    }
-
-    return 0; // retorna 0 se não for "FIM"
-}
-// converte uma letra maiúscula para minúscula 
-char paraMinusculo(char c) { 
-    if (c >= 'A' && c <= 'Z') { // verifica se está entre A e Z
-        return c + 32; // converte para minúscula usando a tabela ASCII
-    }
-
-    return c; // se não for maiúscula, retorna o próprio caractere
+// 1) função para verificar se a string é igual a "FIM"
+int ehFim(char str[]) {
+    return (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0'); // retorna 1 se a string for exatamente "FIM"
 }
 
-// verifica se duas strings são anagramas
-int recebe(char str[], char str2[]) { // recebe duas strings
-    int i, j; 
-    int total1 = 0; // contador de caracteres válidos da primeira string
-   
-    // 1) percorre a primeira string
-    for (i = 0; str[i] != '\0'; i++) { 
-        char c = paraMinusculo(str[i]); // converte o caractere para minúsculo
-        if (c != ' ' && c != '-') { // desconsidera espaços e traços
-            total1++; // conta somente os caracteres válidos
-        }
+// função para calcular manualmente o tamanho da string
+int tamanho(char str[]) {
+    int i = 0; // variável de controle
+
+    while (str[i] != '\0') { // percorre a string até encontrar o caractere de fim
+        i++; // incrementa o contador
     }
 
-    int total2 = 0; // contador de caracteres válidos da segunda string
+    return i; // retorna a quantidade de caracteres
+}
 
-    // 2) percorre a segunda string
-    for (i = 0; str2[i] != '\0'; i++) { 
-        char c = paraMinusculo(str2[i]); // converte o caractere para minúsculo
-        if (c != ' ' && c != '-') { // desconsidera espaços e traços
-            total2++; // conta somente os caracteres válidos
-        }
+// 3) função para converter uma letra maiúscula em minúscula
+char paraMinusculo(char c) {
+    if (c >= 'A' && c <= 'Z') { // verifica se o caractere está entre A e Z
+        return c + 32; // converte para minúsculo usando a tabela ASCII
     }
 
-    // se as quantidades forem diferentes, não podem ser anagramas
-    if (total1 != total2) { // compara as quantidades de caracteres válidos
-        return 0; // retorna falso
-    }
+    return c; // se já for minúsculo, retorna o próprio caractere
+}
 
+// 4) função que verifica se duas strings são anagramas
+int anagrama(char str1[], char str2[]) {
+    int i; // variável de controle do primeiro laço
+    int j; // variável de controle do segundo laço
     int usado[1000]; // vetor para marcar quais posições da segunda string já foram usadas
+    int tam1 = tamanho(str1); // guarda o tamanho da primeira string
+    int tam2 = tamanho(str2); // guarda o tamanho da segunda string
 
-    for (i = 0; i < 1000; i++) { // percorre o vetor
+    if (tam1 != tam2) { // verifica se as duas strings têm tamanhos diferentes
+        return 0; // se tiverem tamanhos diferentes, não são anagramas
+    }
+
+    for (i = 0; i < 1000; i++) { // percorre todo o vetor usado
         usado[i] = 0; // inicializa todas as posições com 0
     }
 
-    int conta = 0; // contador de caracteres correspondentes encontrados
+    for (i = 0; str1[i] != '\0'; i++) { // percorre cada caractere da primeira string
+        int achou = 0; // variável para indicar se encontrou o caractere correspondente na segunda string
+        char c1 = paraMinusculo(str1[i]); // converte o caractere atual da primeira string para minúsculo
 
-    // percorre cada caractere da primeira string
+        for (j = 0; str2[j] != '\0'; j++) { // percorre a segunda string
+            char c2 = paraMinusculo(str2[j]); // converte o caractere atual da segunda string para minúsculo
 
-    // 1) percorre a primeira string
-    for (i = 0; str[i] != '\0'; i++) { 
-        char c1 = paraMinusculo(str[i]); // converte o caractere atual para minúsculo
-
-        if (c1 != ' ' && c1 != '-') { // ignora espaços e traços
-
-            // 2) percorre a segunda string
-            for (j = 0; str2[j] != '\0'; j++) { 
-                char c2 = paraMinusculo(str2[j]); // converte o caractere da segunda string para minúsculo
-
-                // verifica se encontrou o mesmo caractere e se ele ainda não foi usado
-                if (c1 == c2 && usado[j] == 0) { // compara os caracteres e verifica se a posição ainda está livre
-                    usado[j] = 1; // marca essa posição como usada
-                    conta++; // incrementa 
-                    j = tamanho(str2); // força a saída do loop
-                }
+            if (c1 == c2 && usado[j] == 0) { // verifica se os caracteres são iguais e se a posição da segunda string ainda não foi usada
+                usado[j] = 1; // marca a posição da segunda string como usada
+                achou = 1; // marca que encontrou correspondência
+                j = tam2; // força a saída do laço
             }
+        }
+
+        if (achou == 0) { // verifica se não encontrou correspondência para o caractere atual
+            return 0; // se não encontrou, então não são anagramas
         }
     }
 
-    // resumo: retorna verdadeiro se todos os caracteres válidos da primeira string foram encontrados na segunda
-    return conta == total1; // retorna 1 se forem anagramas, ou 0 caso contrário
+    return 1; // se todos os caracteres encontraram correspondência, então são anagramas
 }
 
-int main() { // programa principal 
-    char entrada[1000]; // vetor para armazenar a linha completa lida
-    char str1[1000]; // vetor para armazenar a primeira palavra 
-    char str2[1000]; // vetor para armazenar a segunda palavra 
+// função principal do programa
+int main() {
+    char str1[1000]; // vetor para armazenar a primeira string
+    char str2[1000]; // vetor para armazenar a segunda string
 
-    scanf(" %[^\n]", entrada); // lê a primeira linha da entrada, incluindo espaços
+    scanf("%s", str1); // lê a primeira string da entrada
 
-    while (!ehFim(entrada)) { // continua enquanto a entrada não for "FIM"
-        int i; // variável de controle do laço
-        int j1 = 0; // indices para inserir caracteres em str1 e str2
-        int j2 = 0; 
-        int achouTraco = 0; // variável que indica se já encontrou o traço separador
+    while (!ehFim(str1)) { // continua enquanto a primeira string for diferente de "FIM"
+        scanf("%s", str2); // lê a segunda string do par
 
-        // percorre a string entrada
-        for (i = 0; entrada[i] != '\0'; i++) { 
-            char c = entrada[i]; // pega o caractere atual
-
-            if (c == '-') { // se encontrar o traço 
-                achouTraco = 1; // marca que a partir daqui começa a segunda parte
-
-            } else if (c != ' ') { // ignora os espaços
-                if (!achouTraco) { // se ainda estiver na primeira parte
-                    str1[j1] = c; // coloca o caractere em str1
-                    j1++; // avança a posição de inserção em str1
-
-                } else { // se já passou do traço
-                    str2[j2] = c; // coloca o caractere em str2
-                    j2++; // avança a posição de inserção em str2
-                }
-            }
-        }
-
-        // coloca o fim de string em str1 e str2
-        str1[j1] = '\0'; 
-        str2[j2] = '\0'; 
-
-        // chama a função que verifica se são anagramas
-        if (recebe(str1, str2)) { 
-            printf("SIM\n"); // se a função retornar verdadeiro, imprime SIM
+        if (anagrama(str1, str2)) { // chama a função que verifica se as strings são anagramas
+            printf("SIM\n"); // imprime SIM se forem anagramas
         } else { 
-            printf("NÃO\n"); // caso contrário, imprime NAO
+            printf("NAO\n"); // caso contrario, imprime NAO
         }
 
-        scanf(" %[^\n]", entrada); // lê a próxima linha
+        scanf("%s", str1); // lê a próxima primeira string
     }
 
-    return 0;
+    return 0; // encerra o programa
 }
