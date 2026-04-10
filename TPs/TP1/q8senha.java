@@ -55,6 +55,6 @@ public class q8senha {
             }
         }
 
-        sc.close(); // fecha o Scanner
+        sc.close(); 
     }
 }
