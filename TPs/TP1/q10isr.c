@@ -3,14 +3,16 @@
 
 // função para verificar se a string é igual a "FIM"
 int isFim(char str[]) { 
-    return (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0'); // retorna 1 se for "FIM" e 0 caso contrário
+    // retorna 1 se for "FIM" e 0 caso contrário
+    return (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0'); 
 }
 
 // função recursiva para verificar se a string tem apenas vogais
 int vogaisRec(char str[], int i) { 
     if (str[i] == '\0') return 1; // se chegou ao fim da string, retorna verdadeiro
 
-    if ((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z')) return 0; // se não for letra, retorna falso
+    // se não for letra, retorna falso
+    if ((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z')) return 0; 
 
     if (str[i] != 'a' && str[i] != 'e' && str[i] != 'i' && str[i] != 'o' && str[i] != 'u' &&
         str[i] != 'A' && str[i] != 'E' && str[i] != 'I' && str[i] != 'O' && str[i] != 'U') return 0; // se não for vogal, retorna falso
@@ -18,7 +20,7 @@ int vogaisRec(char str[], int i) {
     return vogaisRec(str, i + 1); // chama a função para o próximo caractere
 }
 
-// função auxiliar para iniciar a recursão das vogais
+// função para iniciar a recursão das vogais
 int vogaisRecBase(char str[]) { 
     if (str[0] == '\0') return 0; // evita considerar string vazia como válida
     return vogaisRec(str, 0); // chama a função principal a partir da posição 0
@@ -36,7 +38,7 @@ int consoantesRec(char str[], int i) {
     return consoantesRec(str, i + 1); // chama a função para o próximo caractere
 }
 
-// função auxiliar para iniciar a recursão das consoantes
+// função para iniciar a recursão das consoantes
 int consoantesRecBase(char str[]) { 
     if (str[0] == '\0') return 0; // evita considerar string vazia como válida
     return consoantesRec(str, 0); // chama a função principal a partir da posição 0
@@ -77,15 +79,15 @@ int reaisRec(char str[], int i, int separador, int antes, int depois) {
     }
 }
 
-// função auxiliar para iniciar a recursão dos reais
+// função para iniciar a recursão dos reais
 int reaisRecBase(char str[]) { 
     if (str[0] == '\0') return 0; // evita considerar string vazia como válida
-    return reaisRec(str, 0, 0, 0, 0); // chama a função principal começando do índice 0, sem separador e sem dígitos contados
+    return reaisRec(str, 0, 0, 0, 0); // chama a função principal começando em i=0, sem separador e sem dígitos contados
 }
 
 // função principal do programa
 int main() { 
-    char str[500]; // vetor de caracteres para armazenar cada linha lida
+    char str[500]; // vetor para armazenar cada linha lida
 
     scanf(" %[^\n]", str); // lê a primeira linha da entrada, incluindo espaços
 
@@ -95,7 +97,7 @@ int main() {
         printf("%s ", inteirosRecBase(str) ? "SIM" : "NAO"); // imprime SIM se representar um número inteiro, senão imprime NAO
         printf("%s\n", reaisRecBase(str) ? "SIM" : "NAO"); // imprime SIM se representar um número real válido, senão imprime NAO
 
-        scanf(" %[^\n]", str); // lê a próxima linha da entrada
+        scanf(" %[^\n]", str); // lê a próxima linha 
     }
 
     return 0; 

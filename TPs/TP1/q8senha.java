@@ -41,11 +41,11 @@ public class q8senha {
     }
 
     public static void main(String[] args) { // método principal
-        Scanner sc = new Scanner(System.in); // cria o Scanner para ler a entrada
+        Scanner teclado = new Scanner(System.in); // inicializa o Scanner 
 
         // lê linha por linha até acabar a entrada
-        while (sc.hasNextLine()) {
-            String senha = sc.nextLine(); // lê uma linha inteira
+        while (teclado.hasNextLine()) {
+            String senha = teclado.nextLine(); // lê uma linha inteira
 
             // chama o método e imprime o resultado
             if (senhaValida(senha)) {
@@ -55,6 +55,6 @@ public class q8senha {
             }
         }
 
-        sc.close(); 
+        teclado.close(); 
     }
 }
