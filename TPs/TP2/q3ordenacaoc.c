@@ -1,85 +1,84 @@
 #include <stdio.h>   
 #include <stdlib.h>  
-#include <time.h>    
 
-#define MATRICULA "898128" // define a matricula
+#define MATRICULA "898128" // define a matricula 
 
 // struct Data
 typedef struct Data { 
-    int ano;   // guarda o ano
-    int mes;   // guarda o mes
-    int dia;   // guarda o dia
-} Data;        
+    int ano;          // guarda o ano
+    int mes;          // guarda o mes
+    int dia;          // guarda o dia
+} Data;              
 
 // struct Hora
 typedef struct Hora { 
-    int hora;    // guarda a hora
-    int minuto;  // guarda o minuto
-} Hora;          
+    int hora;         // guarda a hora
+    int minuto;       // guarda o minuto
+} Hora;               
 
 // struct Restaurante
 typedef struct Restaurante { 
-    int id;            // guarda o id 
-    char nome[120];    // guarda o nome 
-    char cidade[120];  // guarda a cidade
-    int capacidade;    // guarda a capacidade maxima
-    double avaliacao;  // guarda a avaliacao
+    int id;                  // guarda o id 
+    char nome[120];          // guarda o nome 
+    char cidade[120];        // guarda a cidade 
+    int capacidade;          // guarda a capacidade maxima
+    double avaliacao;        // guarda a avaliacao
 
-    char tipos_cozinha[20][80]; // guarda os tipos de cozinha em um vetor de strings
-    int quantidade_tipos;  // guarda quantos tipos de cozinha existem
+    char tipos_cozinha[20][80]; // vetor com os tipos de cozinha
+    int quantidade_tipos;       // quantos tipos de cozinha existem
 
-    int faixa_preco;            // guarda a faixa de preco convertida para 1, 2, 3 ou 4
-    Hora horario_abertura;      // guarda o horario de abertura
-    Hora horario_fechamento;    // guarda o horario de fechamento
-    Data data_abertura;         // guarda a data de abertura
-    int aberto;                 // guarda 1 para true e 0 para false
-} Restaurante;                  // nome final do tipo
+    int faixa_preco;            // faixa de preco convertida para 1, 2, 3 ou 4
+    Hora horario_abertura;      // horario de abertura
+    Hora horario_fechamento;    // horario de fechamento
+    Data data_abertura;         // data de abertura
+    int aberto;                 // 1 para true e 0 para false
+} Restaurante;                  
 
 // struct ColecaoRestaurantes
 typedef struct ColecaoRestaurantes { 
-    int tamanho;   // guarda a quantidade de restaurantes na colecao
-    Restaurante** restaurantes; // guarda um vetor de ponteiros para restaurantes
-} ColecaoRestaurantes; 
+    int tamanho;                     // quantidade de restaurantes na colecao
+    Restaurante** restaurantes;      // vetor de ponteiros para restaurantes
+} ColecaoRestaurantes;             
 
 // calcula tamanho de texto
-int tamanho_texto(char* s) { // funcao que calcula o tamanho de uma string
-    int i = 0; // comeca o indice em 0
+int tamanho_texto(char* s) { 
+    int i = 0;  // começa o indice em 0         
 
-    while (s[i] != '\0') {   // percorre a string ate fim
-        i++; // aumenta o contador
+    while (s[i] != '\0') {   // percorre a string ate encontrar o fim
+        i++;                 
     }
 
     return i; // retorna a quantidade de caracteres
 }
 
-// compara dois textos
-int comparar_texto(char* a, char* b) { // funcao que compara duas strings 
+// compara duas strings manualmente 
+int comparar_texto(char* a, char* b) { 
     int i = 0; // indice para percorrer as strings
 
-    while (a[i] != '\0' && b[i] != '\0') { 
-        if (a[i] != b[i]) {      // se encontrar caracteres diferentes
-            return a[i] - b[i];  // retorna a diferenca entre eles
+    while (a[i] != '\0' && b[i] != '\0') { // enquanto nenhuma das strings terminar
+        if (a[i] != b[i]) { // se encontrar caracteres diferentes
+            return a[i] - b[i]; // retorna a diferenca entre os caracteres
         }
         i++; // avanca para o proximo caractere
     }
 
-    return a[i] - b[i]; // se uma terminou antes da outra, retorna a diferenca final
+    return a[i] - b[i]; // se uma string terminar antes, retorna a diferenca final
 }
 
-// copia texto
-void copiar_texto(char* destino, char* origem) {  // funcao que copia uma string para outra
+// copia uma string para outra
+void copiar_texto(char* destino, char* origem) {
     int i = 0; // indice para percorrer a origem
 
     while (origem[i] != '\0') { // enquanto nao chegar no fim da origem
         destino[i] = origem[i]; // copia o caractere atual
-        i++; // avanca
+        i++; // avanca para o proximo caractere
     }
 
-    destino[i] = '\0';  // coloca o fim da string no destino
+    destino[i] = '\0'; // coloca o fim da string no destino
 }
 
-// remove quebra de linha
-void remover_quebra_linha(char* s) { // funcao que remove '\n' da string
+// remove quebra de linha da string
+void remover_quebra_linha(char* s) { 
     int i = 0; // indice para percorrer a string
 
     while (s[i] != '\0') {   // percorre a string toda
@@ -90,38 +89,38 @@ void remover_quebra_linha(char* s) { // funcao que remove '\n' da string
     }
 }
 
-// converte faixa preco para int
-int parse_faixa_preco(char* s) { // funcao que transforma "$", "$$", "$$$", "$$$$" em 1, 2, 3, 4
+// converte faixa preco para int: "$", "$$", "$$$", "$$$$" em 1, 2, 3, 4
+int parse_faixa_preco(char* s) { 
     int resp = 0; // variavel de resposta
 
-    if (comparar_texto(s, "$") == 0) {            // se a string for "$"
-        resp = 1;                                 // resposta vira 1
-    } else if (comparar_texto(s, "$$") == 0) {    // se a string for "$$"
-        resp = 2;                                 // resposta vira 2
-    } else if (comparar_texto(s, "$$$") == 0) {   // se a string for "$$$"
-        resp = 3;                                 // resposta vira 3
-    } else if (comparar_texto(s, "$$$$") == 0) {  // se a string for "$$$$"
-        resp = 4;                                 // resposta vira 4
+    if (comparar_texto(s, "$") == 0) {           // se a string for "$"
+        resp = 1;                                // resposta vira 1
+    } else if (comparar_texto(s, "$$") == 0) {   // se a string for "$$"
+        resp = 2;                                // resposta vira 2
+    } else if (comparar_texto(s, "$$$") == 0) {  // se a string for "$$$"
+        resp = 3;                                // resposta vira 3
+    } else if (comparar_texto(s, "$$$$") == 0) { // se a string for "$$$$"
+        resp = 4;                                // resposta vira 4
     }
 
     return resp; // retorna o valor convertido
 }
 
-// converte inteiro -> faixa preco texto
-void formatar_faixa_preco(int faixa_preco, char* buffer) { // funcao que faz o caminho contrario
-    int i = 0;                                             // indice do buffer
+// converte faixa preco de inteiro para texto: 1, 2, 3, 4 em "$", "$$", "$$$", "$$$$"
+void formatar_faixa_preco(int faixa_preco, char* buffer) {
+    int i = 0; // indice do buffer
 
-    while (i < faixa_preco) {                              // repete faixa_preco vezes
-        buffer[i] = '$';                                   // coloca um '$' na posicao atual
-        i++;                                               // avanca
+    while (i < faixa_preco) {  // repete enquanto i for menor que faixa_preco
+        buffer[i] = '$';       // coloca um '$' na posicao atual
+        i++;                   // avanca no buffer
     }
 
-    buffer[i] = '\0';                                      // finaliza a string
+    buffer[i] = '\0'; // finaliza a string
 }
 
 // parse data
-Data parse_data(char* s) { // funcao que recebe "YYYY-MM-DD" e retorna uma struct Data
-    Data data;             // cria uma variavel do tipo Data
+Data parse_data(char* s) { // recebe "YYYY-MM-DD" e retorna uma struct Data
+    Data data; // cria uma variavel do tipo Data
 
     sscanf(s, "%d-%d-%d", &data.ano, &data.mes, &data.dia); // le ano, mes e dia da string
 
@@ -129,28 +128,28 @@ Data parse_data(char* s) { // funcao que recebe "YYYY-MM-DD" e retorna uma struc
 }
 
 // formata data
-void formatar_data(Data* data, char* buffer) { // funcao que formata a data como DD/MM/YYYY
-    char dia_string[10];                       // string auxiliar para o dia
-    char mes_string[10];                       // string auxiliar para o mes
+void formatar_data(Data* data, char* buffer) { // formata a data como DD/MM/YYYY
+    char dia_string[10];  // string auxiliar para o dia
+    char mes_string[10];  // string auxiliar para o mes
 
     if (data->dia < 10) {                      // se o dia tiver um digito
         sprintf(dia_string, "0%d", data->dia); // coloca zero na frente
-    } else {                                   // senao
-        sprintf(dia_string, "%d", data->dia);  // escreve normal
+    } else {                                   
+        sprintf(dia_string, "%d", data->dia);  // se nao, escreve normal
     }
 
     if (data->mes < 10) {                      // se o mes tiver um digito
         sprintf(mes_string, "0%d", data->mes); // coloca zero na frente
-    } else {                                   // senao
-        sprintf(mes_string, "%d", data->mes);  // escreve normal
+    } else {                                   
+        sprintf(mes_string, "%d", data->mes);  // se nao, escreve normal
     }
 
     sprintf(buffer, "%s/%s/%d", dia_string, mes_string, data->ano); // monta a data final
 }
 
 // parse hora
-Hora parse_hora(char* s) { // funcao que recebe "HH:mm" e retorna uma struct Hora
-    Hora hora;             // cria uma variavel do tipo Hora
+Hora parse_hora(char* s) { // recebe "HH:mm" e retorna uma struct Hora
+    Hora hora; // cria uma variavel do tipo Hora
 
     sscanf(s, "%d:%d", &hora.hora, &hora.minuto); // le hora e minuto da string
 
@@ -158,82 +157,82 @@ Hora parse_hora(char* s) { // funcao que recebe "HH:mm" e retorna uma struct Hor
 }
 
 // formata hora
-void formatar_hora(Hora* hora, char* buffer) { // funcao que formata a hora como HH:mm
-    char hora_string[10];                      // string auxiliar para a hora
-    char minuto_string[10];                    // string auxiliar para o minuto
+void formatar_hora(Hora* hora, char* buffer) { // formata a hora como HH:mm
+    char hora_string[10]; // string auxiliar para a hora
+    char minuto_string[10]; // string auxiliar para o minuto
 
-    if (hora->hora < 10) {                     // se a hora tiver um digito
+    if (hora->hora < 10) {  // se a hora tiver um digito
         sprintf(hora_string, "0%d", hora->hora); // coloca zero na frente
-    } else {                                     // senao
-        sprintf(hora_string, "%d", hora->hora);  // escreve normal
+    } else {                                     
+        sprintf(hora_string, "%d", hora->hora);  // se nao, escreve normal
     }
 
-    if (hora->minuto < 10) {                     // se o minuto tiver um digito
+    if (hora->minuto < 10) { // se o minuto tiver um digito
         sprintf(minuto_string, "0%d", hora->minuto); // coloca zero na frente
-    } else {                                        // senao
-        sprintf(minuto_string, "%d", hora->minuto); // escreve normal
+    } else {                                        
+        sprintf(minuto_string, "%d", hora->minuto); // se nao, escreve normal
     }
 
     sprintf(buffer, "%s:%s", hora_string, minuto_string); // monta a hora final
 }
 
 // conta tipos de cozinha
-int contar_tipos_cozinha(char* s) { // funcao que conta quantos tipos existem na string
-    int i = 0;                      // indice para percorrer a string
-    int count = 1;                  // assume 1 tipo inicialmente
+int contar_tipos_cozinha(char* s) { 
+    int i = 0; // indice para percorrer a string
+    int count = 1; // assume 1 tipo inicialmente
 
-    if (s[0] == '\0') {             // se a string estiver vazia
-        return 0;                   // nao existe nenhum tipo
+    if (s[0] == '\0') { // se a string estiver vazia
+        return 0; // nao existe nenhum tipo
     }
 
-    while (s[i] != '\0') {          // percorre toda a string
-        if (s[i] == ';') {          // cada ';' separa um novo tipo
-            count++;                // aumenta a contagem
+    while (s[i] != '\0') { // percorre toda a string
+        if (s[i] == ';') { // cada ';' separa um novo tipo
+            count++; // aumenta a quantidade
         }
-        i++;                        // avanca
+        i++; // avanca
     }
 
-    return count;                   // retorna a quantidade de tipos
+    return count; // retorna a quantidade de tipos
 }
 
-// separa tipos de cozinha
-void parse_tipos_cozinha(char* s, Restaurante* restaurante) { // separa a string dos tipos em varias strings
-    int i = 0;                                            // percorre a string original
-    int j = 0;                                            // percorre a string do tipo atual
-    int indice_tipo = 0;                                  // controla em qual tipo estamos
+// separa tipos de cozinha em varias strings 
+void parse_tipos_cozinha(char* s, Restaurante* restaurante) {
+    int i = 0;  // percorre a string original
+    int j = 0;  // percorre a string do tipo atual
+    int indice_tipo = 0; // controla em qual tipo estamos
 
     restaurante->quantidade_tipos = contar_tipos_cozinha(s); // calcula quantos tipos existem
 
-    while (s[i] != '\0') {                                   // percorre a string original
-        if (s[i] == ';') {                                   // se achar ';'
-            restaurante->tipos_cozinha[indice_tipo][j] = '\0'; // termina o tipo atual
-            indice_tipo++;                                   // vai para o proximo tipo
-            j = 0;                                           // reinicia a posicao interna
-        } else {                                             // se nao for ';'
-            restaurante->tipos_cozinha[indice_tipo][j] = s[i]; // copia o caractere
-            j++;                                             // avanca na string do tipo
+    while (s[i] != '\0') {  // percorre a string original
+        if (s[i] == ';') {  // se encontrar ';'
+            restaurante->tipos_cozinha[indice_tipo][j] = '\0'; // termina a string do tipo atual
+            indice_tipo++; // vai para o proximo tipo
+            j = 0; // reinicia o indice interno
+        } else { // se nao for ';'
+            restaurante->tipos_cozinha[indice_tipo][j] = s[i]; // copia o caractere atual
+            j++; // avanca dentro do tipo atual
         }
-        i++;                                                 // avanca na string original
+        i++; // avanca na string original
     }
 
-    restaurante->tipos_cozinha[indice_tipo][j] = '\0';      // finaliza o ultimo tipo
+    restaurante->tipos_cozinha[indice_tipo][j] = '\0'; // finaliza o ultimo tipo
 }
 
 // parse restaurante
-Restaurante* parse_restaurante(char* s) { // funcao que recebe uma linha do csv e cria um restaurante
+Restaurante* parse_restaurante(char* s) { // recebe uma linha do csv e cria um restaurante
     Restaurante* restaurante = (Restaurante*) malloc(sizeof(Restaurante)); // aloca memoria para um restaurante
 
-    char tipos[200];     // guarda a string dos tipos de cozinha
-    char faixa[10];      // guarda a faixa de preco em string
-    char horario[20];    // guarda o horario completo
-    char data[20];       // guarda a data completa
-    char aberto[10];     // guarda "true" ou "false"
+    char tipos[200];  // guarda a string dos tipos de cozinha
+    char faixa[10];   // guarda a faixa de preco em string
+    char horario[20]; // guarda o horario completo
+    char data[20];    // guarda a data completa
+    char aberto[10];  // guarda "true" ou "false"
 
-    char abertura[10];   // guarda a parte antes do '-'
-    char fechamento[10]; // guarda a parte depois do '-'
+    char abertura[10]; // guarda a parte de abertura do horario
+    char fechamento[10]; // guarda a parte de fechamento do horario
 
     sscanf( // le todos os campos da linha do csv
-        s,   // string de origem
+        s,  // linha original
         "%d,%119[^,],%119[^,],%d,%lf,%199[^,],%9[^,],%19[^,],%19[^,],%9s", // formato de leitura
         &restaurante->id,         // le o id
         restaurante->nome,        // le o nome
@@ -253,52 +252,52 @@ Restaurante* parse_restaurante(char* s) { // funcao que recebe uma linha do csv 
 
     sscanf(horario, "%9[^-]-%9s", abertura, fechamento); // separa o horario em abertura e fechamento
 
-    restaurante->horario_abertura = parse_hora(abertura);       // converte a abertura para Hora
-    restaurante->horario_fechamento = parse_hora(fechamento);   // converte o fechamento para Hora
+    restaurante->horario_abertura = parse_hora(abertura); // converte a abertura para Hora
+    restaurante->horario_fechamento = parse_hora(fechamento); // converte o fechamento para Hora
 
     restaurante->data_abertura = parse_data(data); // converte a data para Data
 
     if (comparar_texto(aberto, "true") == 0) { // se aberto for "true"
         restaurante->aberto = 1;               // guarda 1
-    } else {                                   // senao
-        restaurante->aberto = 0;               // guarda 0
+    } else {                                   
+        restaurante->aberto = 0;               // se nao, guarda 0
     }
 
     return restaurante; // retorna o ponteiro para o restaurante criado
 }
 
-// formata tipos cozinha
-void formatar_tipos_cozinha(Restaurante* restaurante, char* buffer) { // transforma os tipos no formato [a,b,c]
-    int i = 0;     // percorre os tipos
-    int pos = 0;   // controla a posicao atual no buffer
-    int j;         // percorre os caracteres de cada tipo
+// formata tipos cozinha em [a,b,c]
+void formatar_tipos_cozinha(Restaurante* restaurante, char* buffer) { 
+    int i = 0;    // percorre os tipos
+    int pos = 0;  // controla a posicao atual no buffer
+    int j;        // percorre os caracteres de cada tipo
 
-    buffer[pos] = '['; // comeca com '['
-    pos++;             // avanca
+    buffer[pos] = '[';  // coloca '[' no inicio
+    pos++;              // avanca uma posicao
     buffer[pos] = '\0'; // coloca fim temporario
 
     for (i = 0; i < restaurante->quantidade_tipos; i++) { // percorre todos os tipos
-        j = 0;                                             // comeca no primeiro caractere do tipo atual
+        j = 0; // comeca no primeiro caractere do tipo atual
 
         while (restaurante->tipos_cozinha[i][j] != '\0') { // copia caractere por caractere
             buffer[pos] = restaurante->tipos_cozinha[i][j]; // copia o caractere atual
-            pos++;                                          // avanca no buffer
-            j++;                                            // avanca no tipo
+            pos++; // avanca no buffer
+            j++; // avanca no tipo
         }
 
         if (i < restaurante->quantidade_tipos - 1) { // se nao for o ultimo tipo
-            buffer[pos] = ',';                       // coloca virgula
-            pos++;                                   // avanca
+            buffer[pos] = ','; // coloca virgula
+            pos++; // avanca
         }
     }
 
     buffer[pos] = ']'; // fecha com ']'
-    pos++;             // avanca
+    pos++; // avanca
     buffer[pos] = '\0'; // finaliza a string
 }
 
-// formata restaurante
-void formatar_restaurante(Restaurante* restaurante, char* buffer) { // monta a string completa do restaurante
+// formata restaurante completo
+void formatar_restaurante(Restaurante* restaurante, char* buffer) { 
     char tipos_string[300];      // guarda os tipos formatados
     char faixa_string[10];       // guarda a faixa formatada
     char abertura_string[10];    // guarda a hora de abertura formatada
@@ -311,7 +310,7 @@ void formatar_restaurante(Restaurante* restaurante, char* buffer) { // monta a s
     formatar_hora(&restaurante->horario_fechamento, fechamento_string); // formata o fechamento
     formatar_data(&restaurante->data_abertura, data_string); // formata a data
 
-    sprintf( // monta a string final
+    sprintf( // monta a string final do restaurante
         buffer, // escreve no buffer
         "[%d ## %s ## %s ## %d ## %.1lf ## %s ## %s ## %s-%s ## %s ## %s]", // formato de saida
         restaurante->id, // id
@@ -328,25 +327,25 @@ void formatar_restaurante(Restaurante* restaurante, char* buffer) { // monta a s
     );
 }
 
-// le csv e preenche colecao
-void ler_csv_colecao(ColecaoRestaurantes* colecao, char* path) { // le o arquivo csv e monta a colecao completa
+// le csv e preenche a colecao completa 
+void ler_csv_colecao(ColecaoRestaurantes* colecao, char* path) {
     FILE* arquivo = fopen(path, "r"); // abre o arquivo para leitura
-    char linha[512];                  // guarda cada linha lida
-    int count = 0;                    // conta quantos restaurantes existem
-    int i = 0;                        // indice de repeticao
+    char linha[512]; // guarda cada linha lida
+    int count = 0; // conta quantos restaurantes existem
+    int i = 0; // indice de repeticao
 
-    if (arquivo == NULL) {            // se nao conseguiu abrir o arquivo
-        printf("Erro ao abrir o arquivo.\n"); // mostra erro
-        return;                       // encerra a funcao
+    if (arquivo == NULL) { // se nao conseguiu abrir o arquivo
+        printf("Erro ao abrir o arquivo.\n"); // mostra mensagem de erro
+        return; // encerra a funcao
     }
 
     fgets(linha, sizeof(linha), arquivo); // le e ignora o cabecalho
 
     while (fgets(linha, sizeof(linha), arquivo) != NULL) { // conta as linhas de dados
-        count++;                                           // aumenta a quantidade
+        count++; // aumenta a contagem
     }
 
-    colecao->tamanho = count; // guarda o total de restaurantes
+    colecao->tamanho = count; // guarda o total de restaurantes na colecao
 
     colecao->restaurantes = (Restaurante**) malloc(sizeof(Restaurante*) * count); // aloca o vetor de ponteiros
 
@@ -354,8 +353,8 @@ void ler_csv_colecao(ColecaoRestaurantes* colecao, char* path) { // le o arquivo
 
     arquivo = fopen(path, "r"); // reabre o arquivo
 
-    if (arquivo == NULL) { // se der erro na reabertura
-        printf("Erro ao abrir o arquivo.\n"); // mostra erro
+    if (arquivo == NULL) { // se nao conseguir abrir de novo
+        printf("Erro ao abrir o arquivo.\n"); // mostra mensagem
         return; // encerra
     }
 
@@ -363,7 +362,7 @@ void ler_csv_colecao(ColecaoRestaurantes* colecao, char* path) { // le o arquivo
 
     for (i = 0; i < count; i++) { // percorre todas as linhas de dados
         fgets(linha, sizeof(linha), arquivo); // le uma linha
-        remover_quebra_linha(linha);          // remove o '\n'
+        remover_quebra_linha(linha); // remove a quebra de linha
         colecao->restaurantes[i] = parse_restaurante(linha); // transforma a linha em restaurante
     }
 
@@ -372,9 +371,9 @@ void ler_csv_colecao(ColecaoRestaurantes* colecao, char* path) { // le o arquivo
 
 // funcao que cria a colecao e le o arquivo padrao
 ColecaoRestaurantes* ler_csv() { // cria a colecao e manda ler /tmp/restaurantes.csv
-    ColecaoRestaurantes* colecao = (ColecaoRestaurantes*) malloc(sizeof(ColecaoRestaurantes)); // aloca memoria
+    ColecaoRestaurantes* colecao = (ColecaoRestaurantes*) malloc(sizeof(ColecaoRestaurantes)); // aloca memoria para a colecao
 
-    colecao->tamanho = 0;   // comeca com tamanho 0
+    colecao->tamanho = 0; // começa com tamanho 0
     colecao->restaurantes = NULL; // comeca sem vetor
 
     ler_csv_colecao(colecao, "/tmp/restaurantes.csv"); // le o arquivo padrao
@@ -384,13 +383,13 @@ ColecaoRestaurantes* ler_csv() { // cria a colecao e manda ler /tmp/restaurantes
 
 // busca por id
 Restaurante* buscar_por_id(ColecaoRestaurantes* colecao, int id) { // procura um restaurante pelo id
-    Restaurante* resp = NULL; // comeca supondo que nao encontrou
-    int i = 0;                // indice para percorrer a colecao
+    Restaurante* resp = NULL; // comeca em NULL
+    int i = 0;  // indice para percorrer a colecao
 
     for (i = 0; i < colecao->tamanho; i++) { // percorre todos os restaurantes
         if (colecao->restaurantes[i]->id == id) { // se o id atual for igual ao procurado
-            resp = colecao->restaurantes[i];      // guarda o restaurante encontrado
-            i = colecao->tamanho;                 // força a saida do laco
+            resp = colecao->restaurantes[i]; // guarda o restaurante encontrado
+            i = colecao->tamanho; // força a saida do laço
         }
     }
 
@@ -398,83 +397,75 @@ Restaurante* buscar_por_id(ColecaoRestaurantes* colecao, int id) { // procura um
 }
 
 // selection sort por nome
-void selecao_por_nome(Restaurante** array, int n, long long* comparacoes, long long* movimentacoes) { // ordena por nome usando selection sort
-    int i;            // indice externo
-    int j;            // indice interno
-    int menor;        // guarda a posicao do menor nome
-    Restaurante* temp; // variavel auxiliar para troca
+void selecao_por_nome(Restaurante** array, int n, long long* comparacoes, long long* movimentacoes) { // ordena por nome 
+    int i; // externo
+    int j; // interno
+    int menor; // guarda a posicao do menor nome
+    Restaurante* temp; // variavel auxiliar para a troca
 
-    for (i = 0; i < n - 1; i++) { // percorre o vetor da primeira ate a penultima posicao
-        menor = i;                // assume que o menor esta na posicao atual
+    for (i = 0; i < n - 1; i++) { // percorre da primeira ate a penultima posicao
+        menor = i; // assume que o menor esta na posicao atual
 
         for (j = i + 1; j < n; j++) { // procura o menor nome no restante do vetor
-            (*comparacoes)++;         // conta uma comparacao entre elementos
+            (*comparacoes)++; // conta uma comparacao
 
-            if (comparar_texto(array[j]->nome, array[menor]->nome) < 0) { // se o nome atual for menor
+            if (comparar_texto(array[j]->nome, array[menor]->nome) < 0) { // se encontrar nome menor
                 menor = j; // atualiza a posicao do menor
             }
         }
 
-        if (menor != i) {      // se o menor nao estiver na posicao atual
-            temp = array[i];   // guarda o elemento da posicao i
+        if (menor != i) { // se o menor nao estiver na posicao atual
+            temp = array[i]; // guarda o elemento atual
             array[i] = array[menor]; // coloca o menor na posicao i
-            array[menor] = temp;     // coloca o antigo array[i] na posicao do menor
-            (*movimentacoes) += 3;   // conta 3 movimentacoes pela troca
+            array[menor] = temp; // coloca o antigo array[i] na posicao do menor
+            (*movimentacoes) += 3; // conta 3 movimentacoes pela troca
         }
     }
 }
 
 // grava arquivo de log
-void criar_log(long long comparacoes, long long movimentacoes, double tempo) { // cria o arquivo de log pedido
+void criar_log(long long comparacoes, long long movimentacoes) { 
     FILE* log = fopen(MATRICULA "_selecao.txt", "w"); // abre o arquivo no modo escrita
 
     if (log != NULL) { // se conseguiu abrir
-        fprintf(log, "%s\t%lld\t%lld\t%lf", MATRICULA, comparacoes, movimentacoes, tempo); // escreve os dados
+        fprintf(log, "%s\t%lld\t%lld\t0.0", MATRICULA, comparacoes, movimentacoes); // escreve matricula, comparacoes, movimentacoes e tempo
         fclose(log); // fecha o arquivo
     }
 }
 
 // programa principal
-int main() { // funcao principal
+int main() { 
     ColecaoRestaurantes* colecao = ler_csv(); // le o csv inteiro e monta a colecao completa
-    Restaurante* selecionados[1000];          // vetor que vai guardar so os restaurantes escolhidos pela entrada
-    int quantidade = 0;                       // quantidade de restaurantes selecionados
-    int id;                                   // guarda o id lido da entrada
-    int i;                                    // indice de repeticao
-    char buffer[1000];                        // buffer para imprimir o restaurante formatado
+    Restaurante* selecionados[1000]; // vetor que vai guardar os restaurantes escolhidos pela entrada
+    int quantidade = 0; // quantidade de restaurantes selecionados
+    int id; // guarda o id lido da entrada
+    int i; // indice de repeticao
+    char buffer[1000]; // buffer para imprimir o restaurante formatado
 
-    long long comparacoes = 0;                // contador de comparacoes da ordenacao
-    long long movimentacoes = 0;              // contador de movimentacoes da ordenacao
+    long long comparacoes = 0; // contador de comparacoes da ordenacao
+    long long movimentacoes = 0; // contador de movimentacoes da ordenacao
 
-    clock_t inicio;                           // guarda o instante inicial
-    clock_t fim;                              // guarda o instante final
-    double tempo;                             // guarda o tempo total da ordenacao
+    scanf("%d", &id); // le o primeiro id
 
-    scanf("%d", &id);                         // le o primeiro id digitado
+    while (id != -1) { // continua ate ler -1
+        Restaurante* restaurante = buscar_por_id(colecao, id); // busca o restaurante pelo id
 
-    while (id != -1) {                       // continua ate o usuario digitar -1
-        Restaurante* restaurante = buscar_por_id(colecao, id); // busca o restaurante correspondente
-
-        if (restaurante != NULL) {           // se encontrou o restaurante
+        if (restaurante != NULL) { // se encontrou
             selecionados[quantidade] = restaurante; // guarda no vetor de selecionados
-            quantidade++;                    // aumenta a quantidade
+            quantidade++; // aumenta a quantidade
         }
 
-        scanf("%d", &id);                    // le o proximo id
+        scanf("%d", &id); // le o proximo id
     }
 
-    inicio = clock();                        // marca o tempo inicial
     selecao_por_nome(selecionados, quantidade, &comparacoes, &movimentacoes); // ordena por nome
-    fim = clock();                           // marca o tempo final
 
-    tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC; // calcula o tempo em segundos
-
-    for (i = 0; i < quantidade; i++) {      // percorre o vetor ja ordenado
+    for (i = 0; i < quantidade; i++) { // percorre o vetor ordenado
         formatar_restaurante(selecionados[i], buffer); // formata o restaurante atual
-        printf("%s\n", buffer);             // imprime o restaurante atual
+        printf("%s\n", buffer); // imprime o restaurante atual
     }
 
-    criar_log(comparacoes, movimentacoes, tempo); // cria o arquivo de log
+    criar_log(comparacoes, movimentacoes); // cria o arquivo de log
 
-    return 0;                               // encerra o programa
+    return 0; // encerra
 }
