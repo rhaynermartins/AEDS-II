@@ -5,46 +5,46 @@
 
 // struct Data
 typedef struct Data { 
-    int ano;          // guarda o ano
-    int mes;          // guarda o mes
-    int dia;          // guarda o dia
+    int ano; // guarda o ano
+    int mes; // guarda o mes
+    int dia; // guarda o dia
 } Data;              
 
 // struct Hora
 typedef struct Hora { 
-    int hora;         // guarda a hora
-    int minuto;       // guarda o minuto
+    int hora;   // guarda a hora
+    int minuto; // guarda o minuto
 } Hora;               
 
 // struct Restaurante
 typedef struct Restaurante { 
-    int id;                  // guarda o id 
-    char nome[120];          // guarda o nome 
-    char cidade[120];        // guarda a cidade 
-    int capacidade;          // guarda a capacidade maxima
-    double avaliacao;        // guarda a avaliacao
+    int id; // guarda o id 
+    char nome[120];  // guarda o nome 
+    char cidade[120]; // guarda a cidade 
+    int capacidade; // guarda a capacidade maxima
+    double avaliacao; // guarda a avaliacao
 
     char tipos_cozinha[20][80]; // vetor com os tipos de cozinha
-    int quantidade_tipos;       // quantos tipos de cozinha existem
+    int quantidade_tipos; // quantos tipos de cozinha existem
 
-    int faixa_preco;            // faixa de preco convertida para 1, 2, 3 ou 4
-    Hora horario_abertura;      // horario de abertura
-    Hora horario_fechamento;    // horario de fechamento
-    Data data_abertura;         // data de abertura
-    int aberto;                 // 1 para true e 0 para false
+    int faixa_preco; // faixa de preco convertida para 1, 2, 3 ou 4
+    Hora horario_abertura; // horario de abertura
+    Hora horario_fechamento; // horario de fechamento
+    Data data_abertura; // data de abertura
+    int aberto; // 1 para true e 0 para false
 } Restaurante;                  
 
 // struct ColecaoRestaurantes
 typedef struct ColecaoRestaurantes { 
-    int tamanho;                     // quantidade de restaurantes na colecao
-    Restaurante** restaurantes;      // vetor de ponteiros para restaurantes
+    int tamanho; // quantidade de restaurantes na colecao
+    Restaurante** restaurantes; // vetor de ponteiros para restaurantes
 } ColecaoRestaurantes;             
 
 // calcula tamanho de texto
 int tamanho_texto(char* s) { 
     int i = 0;  // começa o indice em 0         
 
-    while (s[i] != '\0') {   // percorre a string ate encontrar o fim
+    while (s[i] != '\0') { // percorre a string ate encontrar o fim
         i++;                 
     }
 
@@ -81,9 +81,9 @@ void copiar_texto(char* destino, char* origem) {
 void remover_quebra_linha(char* s) { 
     int i = 0; // indice para percorrer a string
 
-    while (s[i] != '\0') {   // percorre a string toda
-        if (s[i] == '\n') {  // se encontrar quebra de linha
-            s[i] = '\0';     // troca por fim de string
+    while (s[i] != '\0') { // percorre a string toda
+        if (s[i] == '\n') { // se encontrar quebra de linha
+            s[i] = '\0'; // troca por fim de string
         }
         i++; // avanca
     }
@@ -110,9 +110,9 @@ int parse_faixa_preco(char* s) {
 void formatar_faixa_preco(int faixa_preco, char* buffer) {
     int i = 0; // indice do buffer
 
-    while (i < faixa_preco) {  // repete enquanto i for menor que faixa_preco
-        buffer[i] = '$';       // coloca um '$' na posicao atual
-        i++;                   // avanca no buffer
+    while (i < faixa_preco) { // repete enquanto i for menor que faixa_preco
+        buffer[i] = '$'; // coloca um '$' na posicao atual
+        i++; // avanca no buffer
     }
 
     buffer[i] = '\0'; // finaliza a string
@@ -258,9 +258,9 @@ Restaurante* parse_restaurante(char* s) { // recebe uma linha do csv e cria um r
     restaurante->data_abertura = parse_data(data); // converte a data para Data
 
     if (comparar_texto(aberto, "true") == 0) { // se aberto for "true"
-        restaurante->aberto = 1;               // guarda 1
+        restaurante->aberto = 1; // guarda 1
     } else {                                   
-        restaurante->aberto = 0;               // se nao, guarda 0
+        restaurante->aberto = 0; // se nao, guarda 0
     }
 
     return restaurante; // retorna o ponteiro para o restaurante criado

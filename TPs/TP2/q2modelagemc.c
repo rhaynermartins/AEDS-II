@@ -16,26 +16,26 @@ typedef struct Hora {
 
 // struct Restaurante
 typedef struct Restaurante {
-    int id;                 // id do restaurante
-    char nome[120];         // nome do restaurante
-    char cidade[120];       // cidade do restaurante
-    int capacidade;         // capacidade maxima
-    double avaliacao;       // avaliacao do restaurante
+    int id; // id do restaurante
+    char nome[120]; // nome do restaurante
+    char cidade[120]; // cidade do restaurante
+    int capacidade; // capacidade maxima
+    double avaliacao; // avaliacao do restaurante
 
-    char tipos_cozinha[20][80];   // vetor de strings com os tipos de cozinha
-    int quantidade_tipos;         // qnt de tipos existentes
+    char tipos_cozinha[20][80]; // vetor de strings com os tipos de cozinha
+    int quantidade_tipos; // qnt de tipos existentes
 
-    int faixa_preco;           // faixa de preco convertida para 1, 2, 3 ou 4
-    Hora horario_abertura;     // horario de abertura
-    Hora horario_fechamento;   // horario de fechamento
-    Data data_abertura;        // data de abertura
-    int aberto;                // 1 = true, 0 = false
+    int faixa_preco; // faixa de preco convertida para 1, 2, 3 ou 4
+    Hora horario_abertura; // horario de abertura
+    Hora horario_fechamento; // horario de fechamento
+    Data data_abertura; // data de abertura
+    int aberto; // 1 = true, 0 = false
 } Restaurante;                 
 
 // struct ColecaoRestaurantes
 typedef struct ColecaoRestaurantes {
-    int tamanho;                  // qnt de restaurantes na colecao
-    Restaurante** restaurantes;   // vetor de ponteiros para Restaurante
+    int tamanho; // qnt de restaurantes na colecao
+    Restaurante** restaurantes; // vetor de ponteiros para Restaurante
 } ColecaoRestaurantes;           
 
 // funcao que calcula o tamanho de uma string 
@@ -54,8 +54,8 @@ int comparar_texto(char* a, char* b) {
     int i = 0;  // indice para percorrer as duas strings
 
     while (a[i] != '\0' && b[i] != '\0') {
-        if (a[i] != b[i]) {        // se encontrar caracteres diferentes
-            return a[i] - b[i];    // retorna a diferenca entre eles
+        if (a[i] != b[i]) { // se encontrar caracteres diferentes
+            return a[i] - b[i]; // retorna a diferenca entre eles
         }
         i++;  // avanca para o proximo caractere
     }
@@ -67,21 +67,21 @@ int comparar_texto(char* a, char* b) {
 void copiar_texto(char* destino, char* origem) {
     int i = 0;  // indice para percorrer a string de origem
 
-    while (origem[i] != '\0') {    // enquanto nao chegar no fim da origem
-        destino[i] = origem[i];    // copia o caractere atual para o destino
+    while (origem[i] != '\0') { // enquanto nao chegar no fim da origem
+        destino[i] = origem[i]; // copia o caractere atual para o destino
         i++; // avanca para o proximo caractere
     }
 
-    destino[i] = '\0';  // coloca o fim da string no destino
+    destino[i] = '\0'; // coloca o fim da string no destino
 }
 
 // funcao que remove o caractere '\n' da linha lida 
 void remover_quebra_linha(char* s) {
     int i = 0; // indice para percorrer a string
 
-    while (s[i] != '\0') {   // enquanto nao chegar no fim da string
-        if (s[i] == '\n') {  // se encontrar quebra de linha
-            s[i] = '\0';     // troca por fim de string
+    while (s[i] != '\0') { // enquanto nao chegar no fim da string
+        if (s[i] == '\n') { // se encontrar quebra de linha
+            s[i] = '\0'; // troca por fim de string
         }
         i++; // avanca
     }
@@ -89,7 +89,7 @@ void remover_quebra_linha(char* s) {
 
 // funcao que converte "$", "$$", "$$$" ou "$$$$" em 1, 2, 3 ou 4
 int parse_faixa_preco(char* s) {
-    int resp = 0;  // variavel resposta
+    int resp = 0; // variavel resposta
 
     if (comparar_texto(s, "$") == 0) {             // se a string for "$"
         resp = 1;                                  // vira 1
@@ -108,9 +108,9 @@ int parse_faixa_preco(char* s) {
 void formatar_faixa_preco(int faixa_preco, char* buffer) {
     int i = 0; // indice do buffer
 
-    while (i < faixa_preco) {  // repete enquanto i for menor que a faixa
-        buffer[i] = '$';       // coloca um '$' na posicao atual
-        i++;                   // avanca para a proxima posicao
+    while (i < faixa_preco) { // repete enquanto i for menor que a faixa
+        buffer[i] = '$'; // coloca um '$' na posicao atual
+        i++; // avanca para a proxima posicao
     }
 
     buffer[i] = '\0'; // finaliza a string
@@ -147,9 +147,9 @@ void formatar_data(Data* data, char* buffer) {
 
 // funcao que recebe uma string "HH:mm" e retorna uma Hora
 Hora parse_hora(char* s) {
-    Hora hora;                                      // cria uma variavel do tipo Hora
+    Hora hora;   // cria uma variavel do tipo Hora
 
-    sscanf(s, "%d:%d", &hora.hora, &hora.minuto);   // le hora e minuto da string
+    sscanf(s, "%d:%d", &hora.hora, &hora.minuto); // le hora e minuto da string
 
     return hora; // retorna a struct preenchida
 }
@@ -183,9 +183,9 @@ int contar_tipos_cozinha(char* s) {
         return 0;  // nao existe nenhum tipo
     }
 
-    while (s[i] != '\0') {    // percorre toda a string
-        if (s[i] == ';') {    // cada ';' separa um novo tipo
-            count++;          // aumenta a quantidade de tipos
+    while (s[i] != '\0') { // percorre toda a string
+        if (s[i] == ';') { // cada ';' separa um novo tipo
+            count++; // aumenta a quantidade de tipos
         }
         i++; // avanca na string
     }
