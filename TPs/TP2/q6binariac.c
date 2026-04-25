@@ -328,38 +328,41 @@ int main() {
     int achou; // guarda o resultado da busca
     long long comparacoes = 0; // contador de comparacoes da pesquisa
 
-    while (fgets(linha, sizeof(linha), stdin) != NULL) { // le a primeira parte da entrada
+    int continuar_ids = 1; // controla a leitura da primeira parte
+    int continuar_nomes = 1; // controla a leitura da segunda parte
+
+    while (continuar_ids == 1 && fgets(linha, sizeof(linha), stdin) != NULL) { // le a primeira parte da entrada
         limpar_final_linha(linha); // limpa \n e \r
 
         sscanf(linha, "%d", &id); // converte a linha para inteiro
 
         if (id == -1) { // se encontrar -1
-            break; // encerra a primeira parte
-        }
+            continuar_ids = 0; // encerra a primeira parte
+        } else {
+            Restaurante* restaurante = buscar_por_id(colecao, id); // busca o restaurante pelo id
 
-        Restaurante* restaurante = buscar_por_id(colecao, id); // busca o restaurante pelo id
-
-        if (restaurante != NULL) { // se encontrou
-            base_pesquisa[quantidade] = restaurante; // guarda no vetor base
-            quantidade++; // aumenta a quantidade
+            if (restaurante != NULL) { // se encontrou
+                base_pesquisa[quantidade] = restaurante; // guarda no vetor base
+                quantidade++; // aumenta a quantidade
+            }
         }
     }
 
     selecao_por_nome(base_pesquisa, quantidade); // ordena a base por nome
 
-    while (fgets(linha, sizeof(linha), stdin) != NULL) { // le a segunda parte da entrada
+    while (continuar_nomes == 1 && fgets(linha, sizeof(linha), stdin) != NULL) { // le a segunda parte da entrada
         limpar_final_linha(linha); // limpa \n e \r
 
         if (comparar_texto(linha, "FIM") == 0) { // se a linha for FIM
-            break; // encerra a leitura
-        }
+            continuar_nomes = 0; // encerra a leitura
+        } else {
+            achou = pesquisa_binaria(base_pesquisa, quantidade, linha, &comparacoes); // pesquisa o nome lido
 
-        achou = pesquisa_binaria(base_pesquisa, quantidade, linha, &comparacoes); // pesquisa o nome lido
-
-        if (achou == 1) { // se encontrou
-            printf("SIM\n"); // imprime SIM
-        } else { // se nao encontrou
-            printf("NAO\n"); // imprime NAO
+            if (achou == 1) { // se encontrou
+                printf("SIM\n"); // imprime SIM
+            } else { // se nao encontrou
+                printf("NAO\n"); // imprime NAO
+            }
         }
     }
 
