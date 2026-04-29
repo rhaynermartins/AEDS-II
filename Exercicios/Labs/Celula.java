@@ -8,11 +8,13 @@ class Celula {
         this.elemento = 0;
         this.prox = null;
     }
+
     Celula(int elemento) {
         this.elemento = elemento;
         this.prox = null;
     }
 }
+
 class Fila {
     private Celula primeiro;
     private Celula ultimo;
@@ -22,68 +24,68 @@ class Fila {
         ultimo = primeiro;
     }
 
-    public void enfileirar(int x) { //enfileirar
+    public void enfileirar(int x) {
         ultimo.prox = new Celula(x);
         ultimo = ultimo.prox;
     }
 
-    public int desenfileirar() { //desenfileirar
+    public int desenfileirar() {
         if (primeiro == ultimo) {
             return -1;
         }
-        Celularemovida = primeiro.prox;
+
+        Celula removida = primeiro.prox;
         int elemento = removida.elemento;
 
         primeiro.prox = removida.prox;
 
-        if(removida == ultimo) {
+        if (removida == ultimo) {
             ultimo = primeiro;
         }
+
         return elemento;
-    } 
-    public void mostrar() { //mostrar
+    }
+
+    public void mostrar() {
         if (primeiro == ultimo) {
             System.out.println("V");
         } else {
-            Celula i = primeiro.prox;
-
-            while (i != null) {
+            for (Celula i = primeiro.prox; i != null; i = i.prox) {
                 System.out.print(i.elemento);
 
                 if (i.prox != null) {
                     System.out.print(" ");
                 }
-                i = i.prox; 
+            }
+
+            System.out.println();
+        }
+    }
+
+    public boolean pesquisar(int y) {
+        for (Celula i = primeiro.prox; i != null; i = i.prox) {
+            if (i.elemento == y) {
+                return true;
             }
         }
-    } 
-    public boolean pesquisar(int y) { //pesquisar
-        Celula i = primeiro.prox;
 
-        while (i != null) {
-            if (i.elemento == y) {
-                resp = true;
-            } 
-            
-            i = i.prox;
-        }
         return false;
     }
-}    
-public class Main { //principal
+}
 
+public class Main {
     public static void main(String[] args) {
-
         Scanner teclado = new Scanner(System.in);
 
         Fila fila = new Fila();
 
-        while (sc.hasNext()) {
+        while (teclado.hasNext()) {
             String usuario = teclado.next();
 
             if (usuario.equals("E")) {
                 int x = teclado.nextInt();
                 fila.enfileirar(x);
+
             } else if (usuario.equals("D")) {
                 System.out.println(fila.desenfileirar());
 
@@ -95,10 +97,8 @@ public class Main { //principal
 
                 if (fila.pesquisar(y)) {
                     System.out.println("S");
-
                 } else {
                     System.out.println("N");
-
                 }
             }
         }
@@ -106,8 +106,3 @@ public class Main { //principal
         teclado.close();
     }
 }
-
-            
-        
-    
-    
