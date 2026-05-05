@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Arvore",
+            "request": "launch",
+            "mainClass": "Exercicios.Labs.Arvore",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "Debug Arvore",
+            "request": "launch",
+            "mainClass": "Exercicios.Labs.Arvore",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

@@ -73,7 +73,7 @@ class Fila {
     }
 }
 
-public class Main {
+public class CFlex {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
 

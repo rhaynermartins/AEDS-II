@@ -1,5 +1,3 @@
-
-
 class ColetaLixo {
     private Celula primeiro;
 
