@@ -1,5 +1,5 @@
 import java.util.Scanner; 
-import java.io.File; 
+import java.io.File;
 import java.io.FileNotFoundException; 
 import java.io.PrintWriter; 
 
@@ -33,8 +33,8 @@ class Data {
 
     // recebe uma string no formato YYYY-MM-DD e cria um objeto Data
     public static Data parseData(String s) {
-        Scanner sc = new Scanner(s); 
-        sc.useDelimiter("-"); // define - como separador
+        Scanner sc = new Scanner(s); // cria Scanner para ler a string
+        sc.useDelimiter("-"); // define "-" como separador
 
         int ano = sc.nextInt(); // le o ano
         int mes = sc.nextInt(); // le o mes
@@ -50,19 +50,19 @@ class Data {
         String diaString = ""; // string auxiliar para o dia
         String mesString = ""; // string auxiliar para o mes
 
-        if (this.dia < 10) { // se o dia tiver apenas um digito
+        if (this.dia < 10) { // se o dia tiver um digito
             diaString = "0" + this.dia; // coloca zero na frente
         } else {
-            diaString = "" + this.dia; // transforma o dia em string normal
+            diaString = "" + this.dia; // escreve o dia normal
         }
 
-        if (this.mes < 10) { // se o mes tiver apenas um digito
+        if (this.mes < 10) { // se o mes tiver um digito
             mesString = "0" + this.mes; // coloca zero na frente
         } else {
-            mesString = "" + this.mes; // transforma o mes em string normal
+            mesString = "" + this.mes; // escreve o mes normal
         }
 
-        return diaString + "/" + mesString + "/" + this.ano; // retorna a data formatada
+        return diaString + "/" + mesString + "/" + this.ano; // monta a data final
     }
 }
 
@@ -89,8 +89,8 @@ class Hora {
 
     // recebe uma string no formato HH:mm e cria um objeto Hora
     public static Hora parseHora(String s) {
-        Scanner sc = new Scanner(s); 
-        sc.useDelimiter(":"); // define : como separador
+        Scanner sc = new Scanner(s); // cria Scanner para ler a string
+        sc.useDelimiter(":"); // define ":" como separador
 
         int hora = sc.nextInt(); // le a hora
         int minuto = sc.nextInt(); // le o minuto
@@ -105,19 +105,19 @@ class Hora {
         String horaString = ""; // string auxiliar da hora
         String minutoString = ""; // string auxiliar do minuto
 
-        if (this.hora < 10) { // se a hora tiver apenas um digito
+        if (this.hora < 10) { // se a hora tiver um digito
             horaString = "0" + this.hora; // coloca zero na frente
         } else {
-            horaString = "" + this.hora; // transforma a hora em string normal
+            horaString = "" + this.hora; // escreve a hora normal
         }
 
-        if (this.minuto < 10) { // se o minuto tiver apenas um digito
+        if (this.minuto < 10) { // se o minuto tiver um digito
             minutoString = "0" + this.minuto; // coloca zero na frente
         } else {
-            minutoString = "" + this.minuto; // transforma o minuto em string normal
+            minutoString = "" + this.minuto; // escreve o minuto normal
         }
 
-        return horaString + ":" + minutoString; // retorna a hora formatada
+        return horaString + ":" + minutoString; // monta a hora final
     }
 }
 
@@ -129,7 +129,7 @@ class Restaurante {
     private int capacidade; // guarda a capacidade
     private double avaliacao; // guarda a avaliacao
     private String[] tiposCozinha; // guarda os tipos de cozinha
-    private int faixaPreco; // guarda a faixa de preco como numero
+    private int faixaPreco; // guarda a faixa de preco em numero
     private Hora horarioAbertura; // guarda o horario de abertura
     private Hora horarioFechamento; // guarda o horario de fechamento
     private Data dataAbertura; // guarda a data de abertura
@@ -244,7 +244,7 @@ class Restaurante {
 
         while (sc.hasNext()) { // enquanto houver tipo
             sc.next(); // le o tipo
-            count++; // soma um no contador
+            count++; // aumenta a quantidade
         }
 
         sc.close(); 
@@ -255,13 +255,13 @@ class Restaurante {
     // transforma a string dos tipos de cozinha em vetor
     public static String[] parseTiposCozinha(String s) {
         int n = contarTiposCozinha(s); // pega a quantidade de tipos
-        String[] resp = new String[n]; // cria o vetor com tamanho certo
+        String[] resp = new String[n]; // cria vetor no tamanho certo
 
         Scanner sc = new Scanner(s); // cria Scanner para ler a string
         sc.useDelimiter(";"); // define ";" como separador
 
         for (int i = 0; i < n; i++) { // percorre os tipos
-            resp[i] = sc.next(); // guarda o tipo no vetor
+            resp[i] = sc.next(); // guarda cada tipo no vetor
         }
 
         sc.close(); 
@@ -272,7 +272,7 @@ class Restaurante {
     // recebe uma linha do csv e cria um Restaurante
     public static Restaurante parseRestaurante(String s) {
         Scanner sc = new Scanner(s); // cria Scanner para ler a linha
-        sc.useDelimiter(","); // define , como separador
+        sc.useDelimiter(","); // define "," como separador
 
         int id = sc.nextInt(); // le o id
         String nome = sc.next(); // le o nome
@@ -309,13 +309,13 @@ class Restaurante {
 
     // formata os tipos de cozinha no formato [a,b,c]
     public String formatarTiposCozinha() {
-        String resp = "["; // comeca com [
+        String resp = "["; // começa com [
 
         for (int i = 0; i < this.tiposCozinha.length; i++) { // percorre os tipos
             resp += this.tiposCozinha[i]; // adiciona o tipo atual
 
             if (i < this.tiposCozinha.length - 1) { // se nao for o ultimo
-                resp += ","; // adiciona virgula
+                resp += ","; // coloca virgula
             }
         }
 
@@ -368,7 +368,7 @@ class ColecaoRestaurantes {
                 count++; // aumenta o contador
             }
 
-            sc.close(); 
+            sc.close(); // fecha o Scanner
 
             this.tamanho = count; // salva a quantidade
             this.restaurantes = new Restaurante[this.tamanho]; // cria o vetor
@@ -384,9 +384,9 @@ class ColecaoRestaurantes {
                 this.restaurantes[i] = Restaurante.parseRestaurante(linha); // cria restaurante
             }
 
-            sc.close(); 
+            sc.close(); // fecha o Scanner
         } catch (FileNotFoundException e) { // se nao encontrar o arquivo
-            System.out.println("Erro ao abrir o arquivo."); 
+            System.out.println("Erro ao abrir o arquivo."); // imprime erro
         }
     }
 
@@ -401,68 +401,95 @@ class ColecaoRestaurantes {
     public Restaurante buscarPorId(int id) {
         Restaurante resp = null; // começa sem resposta
 
-        for (int i = 0; i < this.tamanho; i++) { // percorre todos
-            if (this.restaurantes[i].getId() == id) { // se encontrou o id
+        for (int i = 0; i < this.tamanho; i++) { // percorre todos os restaurantes
+            if (this.restaurantes[i].getId() == id) { // se encontrar o id
                 resp = this.restaurantes[i]; // guarda o restaurante
                 i = this.tamanho; // força o fim do laco
             }
         }
 
-        return resp; // retorna o restaurante encontrado ou null
+        return resp; // retorna o restaurante ou null
     }
 }
 
 // classe principal
-public class q1selecaoParcial {
+public class q3quicksortParcial {
     public static final String MATRICULA = "898128"; // guarda a matricula
+    public static final int K = 10; // define k igual a 10
 
-    // ordenacao parcial por selecao usando nome como chave
-    public static void selecaoParcialPorNome(Restaurante[] array, int n, long[] comparacoes, long[] movimentacoes) {
-        int k = 10; // quantidade de elementos que devem ficar ordenados
+    // compara dois restaurantes por avaliacao e desempata por nome
+    public static int compararRestaurantes(Restaurante a, Restaurante b, long[] comparacoes) {
+        comparacoes[0]++; // conta a comparacao da avaliacao
 
-        if (n < k) { // se houver menos que 10 elementos
-            k = n; // k vira a quantidade real
+        if (a.getAvaliacao() < b.getAvaliacao()) { // se a avaliacao de a for menor
+            return -1; // a vem antes
+        } else if (a.getAvaliacao() > b.getAvaliacao()) { // se a avaliacao de a for maior
+            return 1; // a vem depois
         }
 
-        for (int i = 0; i < k; i++) { // percorre somente as primeiras k posicoes
-            int menor = i; // assume que o menor esta na posicao i
+        comparacoes[0]++; // conta a comparacao do nome em caso de empate
 
-            for (int j = i + 1; j < n; j++) { // procura o menor no restante do vetor
-                comparacoes[0]++; // conta uma comparacao
+        return a.getNome().compareTo(b.getNome()); // desempata pelo nome
+    }
 
-                if (array[j].getNome().compareTo(array[menor].getNome()) < 0) { // compara os nomes
-                    menor = j; // atualiza a posicao do menor
-                }
+    // troca dois restaurantes de posicao
+    public static void swap(Restaurante[] array, int i, int j, long[] movimentacoes) {
+        Restaurante temp = array[i]; // guarda o elemento da posicao i
+        array[i] = array[j]; // coloca o elemento de j em i
+        array[j] = temp; // coloca o antigo elemento de i em j
+        movimentacoes[0] += 3; // conta 3 movimentacoes
+    }
+
+    // quicksort parcial
+    public static void quicksortParcial(Restaurante[] array, int esq, int dir, long[] comparacoes, long[] movimentacoes) {
+        int i = esq; // indice da esquerda
+        int j = dir; // indice da direita
+        Restaurante pivo = array[(esq + dir) / 2]; // escolhe o pivo do meio
+
+        while (i <= j) { // enquanto os indices nao se cruzarem
+            while (compararRestaurantes(array[i], pivo, comparacoes) < 0) { // enquanto array[i] for menor que o pivo
+                i++; // avanca i
             }
 
-            if (menor != i) { // se o menor nao estiver na posicao correta
-                Restaurante temp = array[i]; // guarda o elemento atual
-                array[i] = array[menor]; // coloca o menor na posicao i
-                array[menor] = temp; // coloca o antigo elemento no lugar do menor
-                movimentacoes[0] += 3; // conta 3 movimentacoes
+            while (compararRestaurantes(array[j], pivo, comparacoes) > 0) { // enquanto array[j] for maior que o pivo
+                j--; // recua j
             }
+
+            if (i <= j) { // se os indices ainda nao cruzaram
+                swap(array, i, j, movimentacoes); // troca os elementos
+                i++; // avanca i
+                j--; // recua j
+            }
+        }
+
+        if (esq < j) { // se ainda existir parte esquerda
+            quicksortParcial(array, esq, j, comparacoes, movimentacoes); // ordena a parte esquerda
+        }
+
+        if (i < K && i < dir) { // se a parte direita ainda pode afetar os 10 primeiros
+            quicksortParcial(array, i, dir, comparacoes, movimentacoes); // ordena parcialmente a parte direita
         }
     }
 
     // cria o arquivo de log
     public static void criarLog(long comparacoes, long movimentacoes, double tempo) {
         try {
-            PrintWriter pw = new PrintWriter(MATRICULA + "_selecao_parcial.txt"); // cria o arquivo de log
+            PrintWriter pw = new PrintWriter(MATRICULA + "_quicksort_parcial.txt"); // cria o arquivo de log
 
-            pw.println(MATRICULA + "\t" + comparacoes + "\t" + movimentacoes + "\t" + tempo); // escreve os dados
+            pw.println(MATRICULA + "\t" + comparacoes + "\t" + movimentacoes + "\t" + tempo); // escreve o log
 
             pw.close(); // fecha o arquivo
-        } catch (FileNotFoundException e) { // se der erro ao criar
-            System.out.println("Erro ao criar arquivo de log."); 
+        } catch (FileNotFoundException e) { // se der erro ao criar o arquivo
+            System.out.println("Erro ao criar arquivo de log."); // imprime erro
         }
     }
 
     // metodo principal
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // cria Scanner para entrada
         ColecaoRestaurantes colecao = ColecaoRestaurantes.lerCsv(); // le o csv completo
 
-        Restaurante[] selecionados = new Restaurante[1000]; // vetor com restaurantes escolhidos
+        Restaurante[] selecionados = new Restaurante[1000]; // vetor de restaurantes escolhidos
         int quantidade = 0; // quantidade de restaurantes escolhidos
         int id; // guarda o id lido
 
@@ -476,7 +503,7 @@ public class q1selecaoParcial {
         id = sc.nextInt(); // le o primeiro id
 
         while (id != -1) { // continua ate ler -1
-            Restaurante restaurante = colecao.buscarPorId(id); // busca o restaurante
+            Restaurante restaurante = colecao.buscarPorId(id); // busca o restaurante pelo id
 
             if (restaurante != null) { // se encontrou
                 selecionados[quantidade] = restaurante; // guarda no vetor
@@ -486,19 +513,21 @@ public class q1selecaoParcial {
             id = sc.nextInt(); // le o proximo id
         }
 
-        inicio = System.currentTimeMillis(); // marca o inicio
+        inicio = System.currentTimeMillis(); // marca o tempo inicial
 
-        selecaoParcialPorNome(selecionados, quantidade, comparacoes, movimentacoes); // ordena parcialmente
+        if (quantidade > 1) { // se tiver mais de um elemento
+            quicksortParcial(selecionados, 0, quantidade - 1, comparacoes, movimentacoes); // ordena parcialmente
+        }
 
-        fim = System.currentTimeMillis(); // marca o fim
+        fim = System.currentTimeMillis(); // marca o tempo final
 
         tempo = (fim - inicio) / 1000.0; // calcula o tempo em segundos
 
-       for(int i = 0; i < quantidade; i++) {
-        System.out.println(selecionados[i].formatar());
-       }
+        for (int i = 0; i < quantidade; i++) { // imprime todos os registros
+            System.out.println(selecionados[i].formatar()); // imprime o restaurante formatado
+        }
 
-        criarLog(comparacoes[0], movimentacoes[0], tempo); // cria o log
+        criarLog(comparacoes[0], movimentacoes[0], tempo); // cria o arquivo de log
 
         sc.close(); 
     }
