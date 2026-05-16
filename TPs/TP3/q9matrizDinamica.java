@@ -1,280 +1,400 @@
-import java.util.Scanner; 
+import java.util.Scanner;
+import java.util.Arrays;
 
-// classe Celula
-class Celula {
-    public int elemento; // guarda o valor inteiro da celula
-    public Celula sup; // aponta para a celula de cima
-    public Celula inf; // aponta para a celula de baixo
-    public Celula esq; // aponta para a celula da esquerda
-    public Celula dir; // aponta para a celula da direita
-
-    // construtor padrao
-    public Celula() {
-        this(0); // chama o construtor com valor 0
-    }
-
-    // construtor com elemento
-    public Celula(int elemento) {
-        this.elemento = elemento; // salva o elemento
-        this.sup = null; // inicia ponteiro superior como null
-        this.inf = null; // inicia ponteiro inferior como null
-        this.esq = null; // inicia ponteiro esquerdo como null
-        this.dir = null; // inicia ponteiro direito como null
-    }
-}
-
-// classe Matriz
-class Matriz {
-    private Celula inicio; // aponta para a primeira celula da matriz
-    private int linha; // guarda a quantidade de linhas
-    private int coluna; // guarda a quantidade de colunas
-
-    // construtor da matriz
-    public Matriz(int linha, int coluna) {
-        this.linha = linha; // salva a quantidade de linhas
-        this.coluna = coluna; // salva a quantidade de colunas
-        construirMatriz(); // cria e conecta as celulas
-    }
-
-    // constroi a matriz dinamica com celulas ligadas
-    private void construirMatriz() {
-        Celula[][] temporaria = new Celula[this.linha][this.coluna]; // vetor auxiliar apenas para conectar as celulas
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas
-            for (int j = 0; j < this.coluna; j++) { // percorre as colunas
-                temporaria[i][j] = new Celula(); // cria uma nova celula
-            }
-        }
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas
-            for (int j = 0; j < this.coluna; j++) { // percorre as colunas
-
-                if (i > 0) { // se existe linha acima
-                    temporaria[i][j].sup = temporaria[i - 1][j]; // liga com a celula de cima
-                }
-
-                if (i < this.linha - 1) { // se existe linha abaixo
-                    temporaria[i][j].inf = temporaria[i + 1][j]; // liga com a celula de baixo
-                }
-
-                if (j > 0) { // se existe coluna a esquerda
-                    temporaria[i][j].esq = temporaria[i][j - 1]; // liga com a celula da esquerda
-                }
-
-                if (j < this.coluna - 1) { // se existe coluna a direita
-                    temporaria[i][j].dir = temporaria[i][j + 1]; // liga com a celula da direita
-                }
-            }
-        }
-
-        this.inicio = temporaria[0][0]; // guarda a primeira celula da matriz
-    }
-
-    // retorna a quantidade de linhas
-    public int getLinha() {
-        return this.linha; // devolve linha
-    }
-
-    // retorna a quantidade de colunas
-    public int getColuna() {
-        return this.coluna; // devolve coluna
-    }
-
-    // retorna a celula da posicao indicada
-    private Celula getCelula(int linha, int coluna) {
-        Celula atual = this.inicio; // comeca na primeira celula
-
-        for (int i = 0; i < linha; i++) { // desce ate a linha desejada
-            atual = atual.inf; // vai para baixo
-        }
-
-        for (int j = 0; j < coluna; j++) { // anda ate a coluna desejada
-            atual = atual.dir; // vai para a direita
-        }
-
-        return atual; // retorna a celula encontrada
-    }
-
-    // altera o valor de uma posicao
-    public void setElemento(int linha, int coluna, int valor) {
-        Celula celula = getCelula(linha, coluna); // pega a celula desejada
-        celula.elemento = valor; // altera o valor da celula
-    }
-
-    // retorna o valor de uma posicao
-    public int getElemento(int linha, int coluna) {
-        Celula celula = getCelula(linha, coluna); // pega a celula desejada
-        return celula.elemento; // retorna o valor da celula
-    }
-
-    // le os elementos da matriz
-    public void ler(Scanner sc) {
-        Celula inicioLinha = this.inicio; // aponta para o inicio da linha atual
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas
-            Celula atual = inicioLinha; // comeca na primeira celula da linha
-
-            for (int j = 0; j < this.coluna; j++) { // percorre as colunas
-                atual.elemento = sc.nextInt(); // le e guarda o elemento
-                atual = atual.dir; // avanca para a direita
-            }
-
-            inicioLinha = inicioLinha.inf; // desce para a proxima linha
-        }
-    }
-
-    // mostra a diagonal principal
-    public void mostrarDiagonalPrincipal() {
-        Celula atual = this.inicio; // comeca na primeira celula
-        int limite = this.linha; // define o limite inicial
-
-        if (this.coluna < limite) { // se colunas for menor
-            limite = this.coluna; // usa colunas como limite
-        }
-
-        for (int i = 0; i < limite; i++) { // percorre a diagonal
-            if (i > 0) { // se nao for o primeiro elemento
-                System.out.print(" "); // imprime espaco antes
-            }
-
-            System.out.print(atual.elemento); // imprime o elemento atual
-
-            if (atual.inf != null && atual.inf.dir != null) { // se existe proximo na diagonal
-                atual = atual.inf.dir; // vai uma linha abaixo e uma coluna a direita
-            }
-        }
-
-        System.out.println(); // quebra linha no final
-    }
-
-    // mostra a diagonal secundaria
-    public void mostrarDiagonalSecundaria() {
-        Celula atual = this.inicio; // comeca na primeira celula
-        int limite = this.linha; // define o limite inicial
-
-        if (this.coluna < limite) { // se colunas for menor
-            limite = this.coluna; // usa colunas como limite
-        }
-
-        for (int j = 0; j < this.coluna - 1; j++) { // vai ate a ultima coluna da primeira linha
-            atual = atual.dir; // anda para a direita
-        }
-
-        for (int i = 0; i < limite; i++) { // percorre a diagonal secundaria
-            if (i > 0) { // se nao for o primeiro elemento
-                System.out.print(" "); // imprime espaco antes
-            }
-
-            System.out.print(atual.elemento); // imprime o elemento atual
-
-            if (atual.inf != null && atual.inf.esq != null) { // se existe proximo na diagonal secundaria
-                atual = atual.inf.esq; // vai uma linha abaixo e uma coluna a esquerda
-            }
-        }
-
-        System.out.println(); // quebra linha no final
-    }
-
-    // soma duas matrizes
-    public Matriz somar(Matriz m) {
-        Matriz resp = new Matriz(this.linha, this.coluna); // cria matriz resposta
-
-        Celula linhaA = this.inicio; // inicio da linha da primeira matriz
-        Celula linhaB = m.inicio; // inicio da linha da segunda matriz
-        Celula linhaR = resp.inicio; // inicio da linha da resposta
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas
-            Celula atualA = linhaA; // celula atual da primeira matriz
-            Celula atualB = linhaB; // celula atual da segunda matriz
-            Celula atualR = linhaR; // celula atual da resposta
-
-            for (int j = 0; j < this.coluna; j++) { // percorre as colunas
-                atualR.elemento = atualA.elemento + atualB.elemento; // soma os elementos
-                atualA = atualA.dir; // avanca na primeira matriz
-                atualB = atualB.dir; // avanca na segunda matriz
-                atualR = atualR.dir; // avanca na resposta
-            }
-
-            linhaA = linhaA.inf; // desce linha da primeira matriz
-            linhaB = linhaB.inf; // desce linha da segunda matriz
-            linhaR = linhaR.inf; // desce linha da resposta
-        }
-
-        return resp; // retorna a matriz somada
-    }
-
-    // multiplica duas matrizes
-    public Matriz multiplicar(Matriz m) {
-        Matriz resp = new Matriz(this.linha, m.coluna); // cria matriz resposta
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas da primeira matriz
-            for (int j = 0; j < m.coluna; j++) { // percorre as colunas da segunda matriz
-                int soma = 0; // acumulador da multiplicacao
-
-                for (int k = 0; k < this.coluna; k++) { // percorre colunas/linhas internas
-                    soma += this.getElemento(i, k) * m.getElemento(k, j); // multiplica e soma
-                }
-
-                resp.setElemento(i, j, soma); // guarda resultado
-            }
-        }
-
-        return resp; // retorna matriz multiplicada
-    }
-
-    // mostra a matriz completa
-    public void mostrar() {
-        Celula inicioLinha = this.inicio; // aponta para o inicio da linha atual
-
-        for (int i = 0; i < this.linha; i++) { // percorre as linhas
-            Celula atual = inicioLinha; // comeca na primeira celula da linha
-
-            for (int j = 0; j < this.coluna; j++) { // percorre as colunas
-                if (j > 0) { // se nao for a primeira coluna
-                    System.out.print(" "); // imprime espaco antes
-                }
-
-                System.out.print(atual.elemento); // imprime elemento atual
-                atual = atual.dir; // avanca para direita
-            }
-
-            System.out.println(); // quebra linha no final da linha
-            inicioLinha = inicioLinha.inf; // desce para a proxima linha
-        }
-    }
-}
-
-// classe principal
 public class q9matrizDinamica {
-    // metodo principal
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in); // cria Scanner para entrada
 
-        int casos = sc.nextInt(); // le quantidade de casos
+    static class Celula {
+        int elemento;
+        Celula esq, dir, sup, inf;
 
-        for (int caso = 0; caso < casos; caso++) { // percorre os casos
-            int l1 = sc.nextInt(); // le linhas da primeira matriz
-            int c1 = sc.nextInt(); // le colunas da primeira matriz
+        Celula(int elemento) {
+            this.elemento = elemento;
+            this.esq = null;
+            this.dir = null;
+            this.sup = null;
+            this.inf = null;
+        }
+    }
 
-            Matriz matriz1 = new Matriz(l1, c1); // cria primeira matriz
-            matriz1.ler(sc); // le elementos da primeira matriz
+    static class Matriz {
+        private Celula inicio;
+        private int linha, coluna;
 
-            int l2 = sc.nextInt(); // le linhas da segunda matriz
-            int c2 = sc.nextInt(); // le colunas da segunda matriz
-
-            Matriz matriz2 = new Matriz(l2, c2); // cria segunda matriz
-            matriz2.ler(sc); // le elementos da segunda matriz
-
-            matriz1.mostrarDiagonalPrincipal(); // mostra diagonal principal da primeira matriz
-            matriz2.mostrarDiagonalSecundaria(); // mostra diagonal secundaria da segunda matriz
-
-            Matriz soma = matriz1.somar(matriz2); // soma as matrizes
-            soma.mostrar(); // mostra matriz soma
-
-            Matriz multiplicacao = matriz1.multiplicar(matriz2); // multiplica as matrizes
-            multiplicacao.mostrar(); // mostra matriz multiplicacao
+        public Matriz() {
+            this(3, 3);
         }
 
-        sc.close(); 
+        public Matriz(int linha, int coluna) {
+            this.linha = linha;
+            this.coluna = coluna;
+            construir();
+        }
+
+        private void construir() {
+            inicio = new Celula(0);
+
+            Celula primeiraDaLinha = inicio;
+            Celula atual = inicio;
+
+            for (int j = 1; j < coluna; j++) {
+                atual.dir = new Celula(0);
+                atual.dir.esq = atual;
+                atual = atual.dir;
+            }
+
+            for (int i = 1; i < linha; i++) {
+                primeiraDaLinha.inf = new Celula(0);
+                primeiraDaLinha.inf.sup = primeiraDaLinha;
+
+                Celula acima = primeiraDaLinha;
+                primeiraDaLinha = primeiraDaLinha.inf;
+                atual = primeiraDaLinha;
+
+                for (int j = 1; j < coluna; j++) {
+                    atual.dir = new Celula(0);
+                    atual.dir.esq = atual;
+                    atual = atual.dir;
+
+                    acima = acima.dir;
+                    atual.sup = acima;
+                    acima.inf = atual;
+                }
+            }
+        }
+
+        public boolean isQuadrada() {
+            return linha == coluna;
+        }
+
+        public void preencher(int[] dados, int pos) {
+            Celula inicioLinha = inicio;
+
+            for (int i = 0; i < linha; i++) {
+                Celula atual = inicioLinha;
+
+                for (int j = 0; j < coluna; j++) {
+                    atual.elemento = dados[pos++];
+                    atual = atual.dir;
+                }
+
+                inicioLinha = inicioLinha.inf;
+            }
+        }
+
+        public Matriz somar(Matriz m) {
+            Matriz resp = null;
+
+            if (m != null && linha == m.linha && coluna == m.coluna) {
+                resp = new Matriz(linha, coluna);
+
+                Celula linhaA = inicio;
+                Celula linhaB = m.inicio;
+                Celula linhaR = resp.inicio;
+
+                for (int i = 0; i < linha; i++) {
+                    Celula a = linhaA;
+                    Celula b = linhaB;
+                    Celula r = linhaR;
+
+                    for (int j = 0; j < coluna; j++) {
+                        r.elemento = a.elemento + b.elemento;
+
+                        a = a.dir;
+                        b = b.dir;
+                        r = r.dir;
+                    }
+
+                    linhaA = linhaA.inf;
+                    linhaB = linhaB.inf;
+                    linhaR = linhaR.inf;
+                }
+            }
+
+            return resp;
+        }
+
+        public Matriz soma(Matriz m) {
+            return somar(m);
+        }
+
+        public Matriz multiplicar(Matriz m) {
+            Matriz resp = null;
+
+            if (m != null && coluna == m.linha) {
+                resp = new Matriz(linha, m.coluna);
+
+                Celula linhaA = inicio;
+                Celula linhaR = resp.inicio;
+
+                for (int i = 0; i < linha; i++) {
+                    Celula r = linhaR;
+                    Celula colunaB = m.inicio;
+
+                    for (int j = 0; j < m.coluna; j++) {
+                        int soma = 0;
+
+                        Celula a = linhaA;
+                        Celula b = colunaB;
+
+                        for (int k = 0; k < coluna; k++) {
+                            soma += a.elemento * b.elemento;
+
+                            a = a.dir;
+                            b = b.inf;
+                        }
+
+                        r.elemento = soma;
+                        r = r.dir;
+                        colunaB = colunaB.dir;
+                    }
+
+                    linhaA = linhaA.inf;
+                    linhaR = linhaR.inf;
+                }
+            }
+
+            return resp;
+        }
+
+        public Matriz multiplicacao(Matriz m) {
+            return multiplicar(m);
+        }
+
+        public void mostrarDiagonalPrincipal() {
+            if (isQuadrada()) {
+                Celula atual = inicio;
+
+                for (int i = 0; i < linha; i++) {
+                    if (i > 0) {
+                        System.out.print(" ");
+                    }
+
+                    System.out.print(atual.elemento);
+                    atual = atual.inf != null ? atual.inf.dir : null;
+                }
+
+                System.out.println();
+            }
+        }
+
+        public void mostrarDiagonalSecundaria() {
+            if (isQuadrada()) {
+                Celula atual = inicio;
+
+                while (atual.dir != null) {
+                    atual = atual.dir;
+                }
+
+                for (int i = 0; i < linha; i++) {
+                    if (i > 0) {
+                        System.out.print(" ");
+                    }
+
+                    System.out.print(atual.elemento);
+                    atual = atual.inf != null ? atual.inf.esq : null;
+                }
+
+                System.out.println();
+            }
+        }
+
+        public void mostrar() {
+            Celula inicioLinha = inicio;
+
+            for (int i = 0; i < linha; i++) {
+                Celula atual = inicioLinha;
+
+                for (int j = 0; j < coluna; j++) {
+                    if (j > 0) {
+                        System.out.print(" ");
+                    }
+
+                    System.out.print(atual.elemento);
+                    atual = atual.dir;
+                }
+
+                System.out.println();
+                inicioLinha = inicioLinha.inf;
+            }
+        }
+
+        public void adicionarDiagonalPrincipal(StringBuilder saida) {
+            if (isQuadrada()) {
+                Celula atual = inicio;
+
+                for (int i = 0; i < linha; i++) {
+                    if (i > 0) {
+                        saida.append(' ');
+                    }
+
+                    saida.append(atual.elemento);
+                    atual = atual.inf != null ? atual.inf.dir : null;
+                }
+
+                saida.append('\n');
+            }
+        }
+
+        public void adicionarDiagonalSecundaria(StringBuilder saida) {
+            if (isQuadrada()) {
+                Celula atual = inicio;
+
+                while (atual.dir != null) {
+                    atual = atual.dir;
+                }
+
+                for (int i = 0; i < linha; i++) {
+                    if (i > 0) {
+                        saida.append(' ');
+                    }
+
+                    saida.append(atual.elemento);
+                    atual = atual.inf != null ? atual.inf.esq : null;
+                }
+
+                saida.append('\n');
+            }
+        }
+
+        public void adicionarMatriz(StringBuilder saida) {
+            Celula inicioLinha = inicio;
+
+            for (int i = 0; i < linha; i++) {
+                Celula atual = inicioLinha;
+
+                for (int j = 0; j < coluna; j++) {
+                    if (j > 0) {
+                        saida.append(' ');
+                    }
+
+                    saida.append(atual.elemento);
+                    atual = atual.dir;
+                }
+
+                saida.append('\n');
+                inicioLinha = inicioLinha.inf;
+            }
+        }
+    }
+
+    static int[] dados;
+    static int total;
+    static int casos;
+    static byte[][] memo;
+
+    static int tamanho(int l, int c) {
+        long resp = (long) l * c;
+        return resp > Integer.MAX_VALUE ? -1 : (int) resp;
+    }
+
+    static boolean podeLer(int pos, int caso) {
+        if (caso == casos) {
+            return pos == total;
+        }
+
+        if (pos + 2 > total) {
+            return false;
+        }
+
+        if (memo[caso][pos] != 0) {
+            return memo[caso][pos] == 1;
+        }
+
+        int l = dados[pos];
+        int c = dados[pos + 1];
+        int tam = tamanho(l, c);
+
+        if (l <= 0 || c <= 0 || tam < 0 || pos + 2 + tam > total) {
+            memo[caso][pos] = 2;
+            return false;
+        }
+
+        int aposPrimeira = pos + 2 + tam;
+        boolean ok = false;
+
+        if (aposPrimeira + tam <= total && podeLer(aposPrimeira + tam, caso + 1)) {
+            ok = true;
+        }
+
+        if (!ok && aposPrimeira + 2 <= total) {
+            int l2 = dados[aposPrimeira];
+            int c2 = dados[aposPrimeira + 1];
+            int tam2 = tamanho(l2, c2);
+
+            if (l2 > 0 && c2 > 0 && tam2 >= 0 && aposPrimeira + 2 + tam2 <= total) {
+                ok = podeLer(aposPrimeira + 2 + tam2, caso + 1);
+            }
+        }
+
+        memo[caso][pos] = ok ? (byte) 1 : (byte) 2;
+        return ok;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        dados = new int[1024];
+        total = 0;
+
+        while (sc.hasNextInt()) {
+            if (total == dados.length) {
+                dados = Arrays.copyOf(dados, dados.length * 2);
+            }
+
+            dados[total++] = sc.nextInt();
+        }
+
+        sc.close();
+
+        if (total == 0) {
+            return;
+        }
+
+        casos = dados[0];
+        memo = new byte[casos + 1][total + 1];
+
+        StringBuilder saida = new StringBuilder();
+        int pos = 1;
+
+        for (int caso = 0; caso < casos; caso++) {
+            int l1 = dados[pos++];
+            int c1 = dados[pos++];
+            int tam1 = l1 * c1;
+
+            Matriz m1 = new Matriz(l1, c1);
+            m1.preencher(dados, pos);
+            pos += tam1;
+
+            int l2 = l1;
+            int c2 = c1;
+            int inicioM2 = pos;
+
+            if (!podeLer(pos + tam1, caso + 1)) {
+                l2 = dados[pos++];
+                c2 = dados[pos++];
+                inicioM2 = pos;
+            }
+
+            int tam2 = l2 * c2;
+
+            Matriz m2 = new Matriz(l2, c2);
+            m2.preencher(dados, inicioM2);
+            pos = inicioM2 + tam2;
+
+            m1.adicionarDiagonalPrincipal(saida);
+            m2.adicionarDiagonalSecundaria(saida);
+
+            Matriz soma = m1.somar(m2);
+            if (soma != null) {
+                soma.adicionarMatriz(saida);
+            }
+
+            Matriz multiplicacao = m1.multiplicar(m2);
+            if (multiplicacao != null) {
+                multiplicacao.adicionarMatriz(saida);
+            }
+        }
+
+        System.out.print(saida.toString());
     }
 }
