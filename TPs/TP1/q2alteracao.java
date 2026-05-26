@@ -26,7 +26,7 @@ public class q2alteracao {
             }
         }
 
-        return nova; // retorna a string alterada
+        return nova; // string alterada
     }
 
     // compara duas strings manualmente
