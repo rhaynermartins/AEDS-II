@@ -28,7 +28,7 @@ public class q1ciframento {
     }
     public static void main (String[] args) {
 
-        String msg; //armazena as strings do usuario
+        String msg; 
 
         q1ciframento c = new q1ciframento(); // cria objeto da classe
         msg = MyIO.readLine(); // lê a primeira linha de entrada do teclado
