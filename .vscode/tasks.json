@@ -1,6 +1,47 @@
 {
     "tasks": [
         {
+            "label": "Java: compilar arquivo atual",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/.vscode/run-java-current.sh",
+                "compile",
+                "${file}",
+                "${workspaceFolder}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$javac"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compila somente o arquivo Java aberto."
+        },
+        {
+            "label": "Java: executar arquivo atual",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/.vscode/run-java-current.sh",
+                "run",
+                "${file}",
+                "${workspaceFolder}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$javac"
+            ],
+            "group": "test",
+            "detail": "Compila e executa somente o arquivo Java aberto."
+        },
+        {
             "type": "cppbuild",
             "label": "C/C++: clang arquivo de build ativo",
             "command": "/usr/bin/clang",
@@ -18,10 +59,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "Tarefa gerada pelo Depurador."
         }
     ],
