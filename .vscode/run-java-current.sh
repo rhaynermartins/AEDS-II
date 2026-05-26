@@ -29,10 +29,12 @@ if [[ -z "$main_class" ]]; then
 fi
 
 build_dir="$workspace_folder/.vscode/java-bin"
-source_dir="$workspace_folder/.vscode/java-src"
+source_dir="$(mktemp -d "${TMPDIR:-/tmp}/aeds-java-src.XXXXXX")"
 target_file="$source_dir/$main_class.java"
 
-mkdir -p "$build_dir" "$source_dir"
+trap 'rm -rf "$source_dir"' EXIT
+
+mkdir -p "$build_dir"
 find "$build_dir" -type f -name '*.class' -delete
 
 cp "$source_file" "$target_file"
