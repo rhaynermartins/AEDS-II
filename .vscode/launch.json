@@ -3,6 +3,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ArvoreAVL",
+            "request": "launch",
+            "mainClass": "ArvoreAVL",
+            "classPaths": [
+                "${workspaceFolder}/.vscode/java-bin"
+            ],
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "preLaunchTask": "Java: compilar arquivo atual"
+        },
+        {
+            "type": "java",
             "name": "Debug Java atual (Main)",
             "request": "launch",
             "mainClass": "Main",
@@ -20,9 +32,10 @@
             "mainClass": "${fileBasenameNoExtension}",
             "cwd": "${fileDirname}",
             "classPaths": [
-                "${fileDirname}"
+                "${workspaceFolder}/.vscode/java-bin"
             ],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "preLaunchTask": "Java: compilar arquivo atual"
         },
         {
             "type": "java",
