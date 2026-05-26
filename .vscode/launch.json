@@ -3,18 +3,36 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Arvore",
+            "name": "Debug Java atual (Main)",
             "request": "launch",
-            "mainClass": "Exercicios.Labs.Arvore",
-            "cwd": "${workspaceFolder}",
+            "mainClass": "Main",
+            "classPaths": [
+                "${workspaceFolder}/.vscode/java-bin"
+            ],
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "preLaunchTask": "Java: compilar arquivo atual"
+        },
+        {
+            "type": "java",
+            "name": "Debug Java atual (nome do arquivo)",
+            "request": "launch",
+            "mainClass": "${fileBasenameNoExtension}",
+            "cwd": "${fileDirname}",
+            "classPaths": [
+                "${fileDirname}"
+            ],
             "console": "integratedTerminal"
         },
         {
             "type": "java",
             "name": "Debug Arvore",
             "request": "launch",
-            "mainClass": "Exercicios.Labs.Arvore",
-            "cwd": "${workspaceFolder}",
+            "mainClass": "Arvore",
+            "cwd": "${workspaceFolder}/Exercicios/Labs",
+            "classPaths": [
+                "${workspaceFolder}/Exercicios/Labs"
+            ],
             "console": "integratedTerminal"
         }
     ]
