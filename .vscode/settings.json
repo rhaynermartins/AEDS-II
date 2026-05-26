@@ -1,0 +1,9 @@
+{
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.project.sourcePaths": [],
+    "java.project.outputPath": ".vscode/java-bin",
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "files.exclude": {
+        ".vscode/java-bin": true
+    }
+}
