@@ -1,4 +1,4 @@
-etapa 1
+/etapa 1
 classe no com nivel 
 class No {
     int elemento;
@@ -14,7 +14,7 @@ class No {
     }
 }
 
-etapa 2
+/etapa 2
 public int getNivel(No i) {
     if (i == null) {
         return 0;
@@ -23,7 +23,7 @@ public int getNivel(No i) {
     }
 }
 
-etapa 3
+/etapa 3
 nivel = 1 + maior nível entre o filho esquerdo e o filho direito
 public void setNivel() {
     int nivelEsq = getNivel(esq);
@@ -36,13 +36,13 @@ public void setNivel() {
     }
 }
 
-etapa 4
+/etapa 4
 balanceamento = nível(filho direito) - nível(filho esquerdo)
 public int getFatorBalanceamento() {
     return getNivel(dir) - getNivel(esq);
 }
 
-etapa 5
+/etapa 5
 class ArvoreAVL {
     private No raiz;
 
@@ -51,7 +51,7 @@ class ArvoreAVL {
     }
 }
 
-etapa 6
+/etapa 6
 insercao basica sem balanceamento
 public void inserir(int x) {
     raiz = inserir(x, raiz);
@@ -71,7 +71,7 @@ private No inserir(int x, No i) {
     return i;
 }
 
-etapa 7
+/etapa 7
 caminhamento central mostrando o nível de cada nó
 public void caminharCentralNivel() {
     caminharCentralNivel(raiz);
@@ -88,7 +88,7 @@ private void caminharCentralNivel(No i) {
     }
 }
 
-etapa 8
+/etapa 8
 caminhamento central imprimindo nivel e fator 
 public void caminharCentralCompleto() {
     caminharCentralCompleto(raiz);
@@ -105,7 +105,7 @@ private void caminharCentralCompleto(No i) {
     }
 }
 
-etapa 9
+/etapa 9
 rotacao simples a esquerda
 private No rotacionarEsq(No i) {
     No j = i.dir;
@@ -119,7 +119,7 @@ private No rotacionarEsq(No i) {
     return j;
 }
 
-etapa 10
+/etapa 10
 rotacao simples a direita
 private No rotacionarDir(No i) {
     No j = i.esq;
@@ -133,7 +133,7 @@ private No rotacionarDir(No i) {
     return j;
 }
 
-etapa 11
+/etapa 11
 rotacao dupla direita-esquerda
 private No rotacionarDirEsq(No i) {
     i.dir = rotacionarDir(i.dir);
@@ -141,7 +141,7 @@ private No rotacionarDirEsq(No i) {
     return rotacionarEsq(i);
 }
 
-etapa 12
+/etapa 12
 rotacao dupla esquerda-direita
 private No rotacionarEsqDir(No i) {
     i.esq = rotacionarEsq(i.esq);
@@ -149,7 +149,7 @@ private No rotacionarEsqDir(No i) {
     return rotacionarDir(i);
 }
 
-etapa 13
+/etapa 13
 metodo balancear 
 private No balancear(No i) {
     if (i != null) {
@@ -181,7 +181,7 @@ private No balancear(No i) {
     return i;
 }
 
-etapa 14
+/etapa 14
 insercao com balanceamento
 public void inserir(int x) {
     raiz = inserir(x, raiz);

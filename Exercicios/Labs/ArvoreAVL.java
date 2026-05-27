@@ -37,10 +37,10 @@ class No {
     }
 }
 
-class ArvoreAVL {
+class AVL {
     private No raiz;
 
-    ArvoreAVL() {
+    AVL() {
         raiz = null;
     }
 
@@ -163,11 +163,11 @@ class ArvoreAVL {
     }
 }
 
-public class Main {
+public class ArvoreAVL {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
 
-        ArvoreAVL arvore = new ArvoreAVL();
+        AVL arvore = new AVL();
 
         while (teclado.hasNextInt()) {
             int x = teclado.nextInt();
