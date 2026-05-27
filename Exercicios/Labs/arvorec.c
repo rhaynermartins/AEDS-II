@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// nó da árvore
+// nó da árvore binaria 
 typedef struct No {
     int elemento;         
     struct No *esq;        
     struct No *dir;       
 } No;
 
-// criar novo nó
+// criar novo nó com o valor x
 No* criarNo(int x) {
     No *novo = (No*) malloc(sizeof(No)); 
 
@@ -24,7 +24,7 @@ int vazia(No *raiz) {
     return raiz == NULL; 
 }
 
-// inserir 
+// inserir um novo elemento
 No* inserir(No *raiz, int x) {
     if (raiz == NULL) {
         raiz = criarNo(x);
@@ -41,7 +41,7 @@ No* inserir(No *raiz, int x) {
     return raiz;
 }
 
-// pesquisar
+// pesquisar um elemento
 int pesquisar(No *raiz, int x) {
     int resp; 
 
