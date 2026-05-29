@@ -38,11 +38,11 @@ int main() {
 
             // se precisar trocar
             if (trocar == 1) {
-                Atleta temp = atletas[j];      // guarda o atual em temp
+                Atleta temp = atletas[j];  // guarda o atual em temp
 
-                atletas[j] = atletas[j + 1];   // coloca o prox na atual
+                atletas[j] = atletas[j + 1];  // coloca o proximo na atual
 
-                atletas[j + 1] = temp;         // Coloca na prox posição
+                atletas[j + 1] = temp;   // Coloca na proxima posição
             }
         }
     }
