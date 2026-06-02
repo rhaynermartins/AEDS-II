@@ -1,0 +1,26 @@
+//atividade 1
+class No {
+    int elemento;
+    boolean cor;
+    No esq;
+    No dir;
+
+    No(int elemento) {
+        this.elemento = elemento;
+        this.cor = true;
+        this.esq = null;
+        this.dir = null;
+    }
+
+    No(int elemento, boolean cor) {
+        this.elemento = elemento;
+        this.cor = cor;
+        this.esq = null;
+        this.dir = null;
+    }
+}
+
+//atividade 2
+public boolean isNoTipo4() {
+    return esq != null && dir != null && esq.cor && dir.cor;
+}
