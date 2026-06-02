@@ -1,4 +1,5 @@
-//atividade 1
+//atividade 1 
+//atributo cor 
 class No {
     int elemento;
     boolean cor;
@@ -21,6 +22,30 @@ class No {
 }
 
 //atividade 2
+//detectar 4.no
 public boolean isNoTipo4() {
     return esq != null && dir != null && esq.cor && dir.cor;
 }
+
+//atividade 3
+//recolorir no 
+private void fragmentar(No i) {
+    i.cor = true;
+
+    if (i.esq != null) {
+        i.esq.cor = false;
+    }
+
+    if (i.dir != null) {
+        i.dir.cor = false;
+    }
+
+    if (i == raiz) {
+        i.cor = false;
+    }
+}
+
+//atividade 4
+//balanceamento por rotacao 
+
+
