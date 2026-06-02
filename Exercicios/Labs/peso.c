@@ -7,7 +7,7 @@ typedef struct {
 } Atleta;
 
 int main() {
-    Atleta atletas[100]; // max 100 atletas
+    Atleta atletas[100]; // max 100 
 
     int n = 0; 
 

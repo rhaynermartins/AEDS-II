@@ -3,7 +3,7 @@
 #define true 1
 
 typedef struct Celula {
-	int elemento;        // Elemento inserido na celula
+	int elemento;        // Elemento inserido na cel
 	struct Celula* prox; // Aponta a celula prox
 } Celula;
 
