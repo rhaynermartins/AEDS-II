@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ArvoreBicolor",
+            "request": "launch",
+            "mainClass": "ArvoreBicolor",
+            "projectName": "AEDS-II_1b3b9651"
+        },
+        {
+            "type": "java",
             "name": "ArvoreAVL",
             "request": "launch",
             "mainClass": "ArvoreAVL",
