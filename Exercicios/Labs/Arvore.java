@@ -93,7 +93,7 @@ class ArvoreBinaria {
         }
     }
     //em ordem
-    public void emOrdem() { //imprimir
+    public void emOrdem() { //imprime
         if (vazia()) {
             System.out.println("V");
         } else {
