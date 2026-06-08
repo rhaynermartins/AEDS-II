@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+//bicolor
 class No {
     int elemento;
     boolean cor;
