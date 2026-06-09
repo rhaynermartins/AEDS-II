@@ -155,7 +155,7 @@ int remover(TabelaHash *t, char chave[]) {
         return 1;
     }
 
-    // caso o pais esteja na area de reserva
+    // caso o pais esteja na area de reserva 
     for (int i = M; i < M + t->nr; i++) {
         if (t->ocupado[i] && comparar(t->tabela[i], chave)) {
             removerDaReserva(t, i);
