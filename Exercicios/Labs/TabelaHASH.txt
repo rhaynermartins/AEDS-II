@@ -48,3 +48,74 @@ public void inserir(String chave) throws Exception {
         throw new Exception("Erro: area de reserva cheia");
     }
 }
+
+//atividade 6
+public String pesquisar(String chave) {
+    int pos = hash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        return tabela[pos];
+    }
+
+    for (int i = m; i < m + nr; i++) {
+        if (tabela[i] != null && tabela[i].equals(chave)) {
+            return tabela[i];
+        }
+    }
+
+    return null;
+}
+
+//atividade 7
+public String remover(String chave) {
+    int pos = hash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        String removido = tabela[pos];
+        tabela[pos] = null;
+
+        int posReserva = procurarNaReservaMesmoHash(pos);
+
+        if (posReserva != -1) {
+            tabela[pos] = tabela[posReserva];
+            removerDaReserva(posReserva);
+        }
+
+        return removido;
+    }
+
+    for (int i = m; i < m + nr; i++) {
+        if (tabela[i] != null && tabela[i].equals(chave)) {
+            String removido = tabela[i];
+            removerDaReserva(i);
+            return removido;
+        }
+    }
+
+    return null;
+}
+
+//atividade 8
+public void mostrar() {
+    System.out.println("Indice Area Conteudo");
+
+    for (int i = 0; i < tabela.length; i++) {
+        String area;
+
+        if (i < m) {
+            area = "Principal";
+        } else {
+            area = "Reserva";
+        }
+
+        String conteudo;
+
+        if (tabela[i] == null) {
+            conteudo = "-";
+        } else {
+            conteudo = tabela[i];
+        }
+
+        System.out.println(i + " " + area + " " + conteudo);
+    }
+}
