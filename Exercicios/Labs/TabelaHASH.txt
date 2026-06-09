@@ -119,3 +119,61 @@ public void mostrar() {
         System.out.println(i + " " + area + " " + conteudo);
     }
 }
+
+PARTE 2 - QUANDO OCORRE COLISAO 
+
+//atividade 1
+class TabelaHashComRehash {
+    private String[] tabela;
+    private int m;
+
+    public TabelaHashComRehash(int m) {
+        this.m = m;
+        this.tabela = new String[m];
+    }
+}
+
+//atividade 2
+private int hash(String chave) {
+    int soma = 0;
+
+    for (int i = 0; i < chave.length(); i++) {
+        soma += chave.charAt(i);
+    }
+
+    return soma % m;
+}
+
+private int rehash(String chave) {
+    int soma = 0;
+
+    for (int i = 0; i < chave.length(); i++) {
+        soma += chave.charAt(i);
+    }
+
+    return (soma + 1) % m;
+}
+
+//atividade 3
+public void inserir(String chave) throws Exception {
+    if (pesquisar(chave) != null) {
+        throw new Exception("Erro: insercao duplicada");
+    }
+
+    int pos = hash(chave);
+
+    if (tabela[pos] == null) {
+        tabela[pos] = chave;
+    } else {
+        pos = rehash(chave);
+
+        if (tabela[pos] == null) {
+            tabela[pos] = chave;
+        } else {
+            throw new Exception("Erro: nao foi possivel inserir");
+        }
+    }
+}
+
+//atividade 4
+
