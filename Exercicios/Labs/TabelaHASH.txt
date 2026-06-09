@@ -1,3 +1,5 @@
+PARTE 1 - HASH COM AREA DE RESERVA
+
 
 //atividade 1
 class TabelaHashComReserva {
@@ -120,9 +122,11 @@ public void mostrar() {
     }
 }
 
-PARTE 2 - QUANDO OCORRE COLISAO 
 
-//atividade 1
+PARTE 2 - HASH COM REHASH
+
+
+//classe e construtor 
 class TabelaHashComRehash {
     private String[] tabela;
     private int m;
@@ -133,7 +137,7 @@ class TabelaHashComRehash {
     }
 }
 
-//atividade 2
+//hash e rehash
 private int hash(String chave) {
     int soma = 0;
 
@@ -154,7 +158,7 @@ private int rehash(String chave) {
     return (soma + 1) % m;
 }
 
-//atividade 3
+//insercao
 public void inserir(String chave) throws Exception {
     if (pesquisar(chave) != null) {
         throw new Exception("Erro: insercao duplicada");
@@ -175,5 +179,111 @@ public void inserir(String chave) throws Exception {
     }
 }
 
-//atividade 4
+//pesquisa
+public String pesquisar(String chave) {
+    int pos = hash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        return tabela[pos];
+    }
+
+    pos = rehash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        return tabela[pos];
+    }
+
+    return null;
+}
+
+//remocao
+public String remover(String chave) {
+    int pos = hash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        String removido = tabela[pos];
+        tabela[pos] = null;
+        return removido;
+    }
+
+    pos = rehash(chave);
+
+    if (tabela[pos] != null && tabela[pos].equals(chave)) {
+        String removido = tabela[pos];
+        tabela[pos] = null;
+        return removido;
+    }
+
+    return null;
+}
+
+
+PARTE 3 - HASH COM LISTA ENCADEADA
+
+
+//classe celula
+class Celula {
+    String elemento;
+    Celula prox;
+
+    Celula(String elemento) {
+        this.elemento = elemento;
+        this.prox = null;
+    }
+}
+
+//classe encadeada
+class TabelaHashEncadeada {
+    private Celula[] tabela;
+    private int m;
+
+    public TabelaHashEncadeada(int m) {
+        this.m = m;
+        this.tabela = new Celula[m];
+    }
+}
+
+//funcao hash
+private int hash(String chave) {
+    int soma = 0;
+
+    for (int i = 0; i < chave.length(); i++) {
+        soma += chave.charAt(i);
+    }
+
+    return soma % m;
+}
+
+//insercao
+public void inserir(String chave) throws Exception {
+    if (pesquisar(chave) != null) {
+        throw new Exception("Erro: insercao duplicada");
+    }
+
+    int pos = hash(chave);
+
+    Celula nova = new Celula(chave);
+    nova.prox = tabela[pos];
+    tabela[pos] = nova;
+}
+
+//pesquisa
+public String pesquisar(String chave) {
+    int pos = hash(chave);
+
+    Celula atual = tabela[pos];
+
+    while (atual != null) {
+        if (atual.elemento.equals(chave)) {
+            return atual.elemento;
+        }
+
+        atual = atual.prox;
+    }
+
+    return null;
+}
+
+//remocao 
+
 
