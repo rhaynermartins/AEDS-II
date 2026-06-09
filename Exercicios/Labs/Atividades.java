@@ -109,8 +109,73 @@ public class Atividades {
         fila.mostrar();
     }
 
+    // Ordenacao por insercao: boa para estudar deslocamento de elementos no vetor.
+    private static void ordenarPorInsercao(int[] valores) {
+        for (int i = 1; i < valores.length; i++) {
+            int chave = valores[i];
+            int j = i - 1;
+
+            while (j >= 0 && valores[j] > chave) {
+                valores[j + 1] = valores[j];
+                j--;
+            }
+
+            valores[j + 1] = chave;
+        }
+    }
+
+    private static int buscaSequencial(int[] valores, int procurado) {
+        for (int i = 0; i < valores.length; i++) {
+            if (valores[i] == procurado) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    // Busca binaria exige vetor ordenado e divide o intervalo de pesquisa ao meio.
+    private static int buscaBinaria(int[] valores, int procurado) {
+        int esquerda = 0;
+        int direita = valores.length - 1;
+
+        while (esquerda <= direita) {
+            int meio = (esquerda + direita) / 2;
+
+            if (valores[meio] == procurado) {
+                return meio;
+            } else if (valores[meio] < procurado) {
+                esquerda = meio + 1;
+            } else {
+                direita = meio - 1;
+            }
+        }
+
+        return -1;
+    }
+
+    private static void mostrarVetor(String nome, int[] valores) {
+        System.out.print(nome + ": ");
+        for (int valor : valores) {
+            System.out.print(valor + " ");
+        }
+        System.out.println();
+    }
+
+    private static void exemploOrdenacaoEBusca() {
+        int[] valores = {7, 2, 9, 1, 5};
+
+        mostrarVetor("Vetor original", valores);
+        System.out.println("Busca sequencial do 9: posicao " + buscaSequencial(valores, 9));
+
+        ordenarPorInsercao(valores);
+        mostrarVetor("Vetor ordenado", valores);
+        System.out.println("Busca binaria do 5: posicao " + buscaBinaria(valores, 5));
+    }
+
     public static void main(String[] args) {
         exemploPilha();
         exemploFila();
+        exemploOrdenacaoEBusca();
     }
 }
