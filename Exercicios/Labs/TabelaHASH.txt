@@ -285,5 +285,29 @@ public String pesquisar(String chave) {
 }
 
 //remocao 
+public String remover(String chave) {
+    int pos = hash(chave);
+
+    Celula atual = tabela[pos];
+    Celula anterior = null;
+
+    while (atual != null) {
+        if (atual.elemento.equals(chave)) {
+            if (anterior == null) {
+                tabela[pos] = atual.prox;
+            } else {
+                anterior.prox = atual.prox;
+            }
+
+            return atual.elemento;
+        }
+
+        anterior = atual;
+        atual = atual.prox;
+    }
+
+    return null;
+}
+
 
 
