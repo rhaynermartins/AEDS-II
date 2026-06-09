@@ -1,0 +1,18 @@
+
+//atividade 1
+class TabelaHashComReserva {
+    private String[] tabela; // Guarda a tabela principal e a área de reserva
+    private int m;           // Tamanho da área principal
+    private int r;           // Tamanho da área de reserva
+    private int nr;          // Quantidade de elementos na reserva
+}
+
+//atividade 2
+public TabelaHashComReserva(int m, int r) {
+    this.m = m;
+    this.r = r;
+    this.nr = 0;
+    this.tabela = new String[m + r];
+}
+
+//atividade 3
