@@ -84,6 +84,71 @@ public class Atividades {
         }
     }
 
+    static class NoArvore {
+        int valor;
+        NoArvore esquerda;
+        NoArvore direita;
+
+        NoArvore(int valor) {
+            this.valor = valor;
+            esquerda = null;
+            direita = null;
+        }
+    }
+
+    // Arvore binaria de pesquisa: menores ficam a esquerda, maiores ficam a direita.
+    static class ArvoreBinaria {
+        private NoArvore raiz;
+
+        void inserir(int valor) {
+            raiz = inserir(raiz, valor);
+        }
+
+        private NoArvore inserir(NoArvore no, int valor) {
+            if (no == null) {
+                return new NoArvore(valor);
+            }
+
+            if (valor < no.valor) {
+                no.esquerda = inserir(no.esquerda, valor);
+            } else if (valor > no.valor) {
+                no.direita = inserir(no.direita, valor);
+            }
+
+            return no;
+        }
+
+        boolean pesquisar(int valor) {
+            return pesquisar(raiz, valor);
+        }
+
+        private boolean pesquisar(NoArvore no, int valor) {
+            if (no == null) {
+                return false;
+            } else if (valor == no.valor) {
+                return true;
+            } else if (valor < no.valor) {
+                return pesquisar(no.esquerda, valor);
+            } else {
+                return pesquisar(no.direita, valor);
+            }
+        }
+
+        void mostrarEmOrdem() {
+            System.out.print("Arvore em ordem: ");
+            mostrarEmOrdem(raiz);
+            System.out.println();
+        }
+
+        private void mostrarEmOrdem(NoArvore no) {
+            if (no != null) {
+                mostrarEmOrdem(no.esquerda);
+                System.out.print(no.valor + " ");
+                mostrarEmOrdem(no.direita);
+            }
+        }
+    }
+
     private static void exemploPilha() {
         PilhaInteiros pilha = new PilhaInteiros(5);
 
@@ -173,9 +238,32 @@ public class Atividades {
         System.out.println("Busca binaria do 5: posicao " + buscaBinaria(valores, 5));
     }
 
+    // Fatorial recursivo: cada chamada resolve uma parte menor do problema.
+    private static int fatorial(int numero) {
+        if (numero <= 1) {
+            return 1;
+        }
+
+        return numero * fatorial(numero - 1);
+    }
+
+    private static void exemploRecursividadeEArvore() {
+        ArvoreBinaria arvore = new ArvoreBinaria();
+        int[] valores = {50, 30, 70, 20, 40, 60, 80};
+
+        for (int valor : valores) {
+            arvore.inserir(valor);
+        }
+
+        System.out.println("Fatorial de 5: " + fatorial(5));
+        arvore.mostrarEmOrdem();
+        System.out.println("Pesquisa 40 na arvore: " + arvore.pesquisar(40));
+    }
+
     public static void main(String[] args) {
         exemploPilha();
         exemploFila();
         exemploOrdenacaoEBusca();
+        exemploRecursividadeEArvore();
     }
 }
