@@ -38,6 +38,52 @@ public class Atividades {
         }
     }
 
+    // Fila circular usando vetor: o primeiro elemento inserido e o primeiro a sair.
+    static class FilaCircular {
+        private int[] dados;
+        private int inicio;
+        private int fim;
+        private int tamanho;
+
+        FilaCircular(int capacidade) {
+            dados = new int[capacidade];
+            inicio = 0;
+            fim = 0;
+            tamanho = 0;
+        }
+
+        void enfileirar(int valor) {
+            if (tamanho == dados.length) {
+                System.out.println("Fila cheia");
+            } else {
+                dados[fim] = valor;
+                fim = (fim + 1) % dados.length;
+                tamanho++;
+            }
+        }
+
+        int desenfileirar() {
+            if (tamanho == 0) {
+                System.out.println("Fila vazia");
+                return -1;
+            }
+
+            int valor = dados[inicio];
+            inicio = (inicio + 1) % dados.length;
+            tamanho--;
+            return valor;
+        }
+
+        void mostrar() {
+            System.out.print("Fila: ");
+            for (int i = 0; i < tamanho; i++) {
+                int posicao = (inicio + i) % dados.length;
+                System.out.print(dados[posicao] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     private static void exemploPilha() {
         PilhaInteiros pilha = new PilhaInteiros(5);
 
@@ -50,7 +96,21 @@ public class Atividades {
         pilha.mostrar();
     }
 
+    private static void exemploFila() {
+        FilaCircular fila = new FilaCircular(5);
+
+        fila.enfileirar(1);
+        fila.enfileirar(2);
+        fila.enfileirar(3);
+        fila.mostrar();
+
+        System.out.println("Removido da fila: " + fila.desenfileirar());
+        fila.enfileirar(4);
+        fila.mostrar();
+    }
+
     public static void main(String[] args) {
         exemploPilha();
+        exemploFila();
     }
 }
