@@ -16,3 +16,35 @@ public TabelaHashComReserva(int m, int r) {
 }
 
 //atividade 3
+private int hash(String chave) {
+    int soma = 0;
+
+    for (int i = 0; i < chave.length(); i++) {
+        soma += chave.charAt(i);
+    }
+
+    return soma % m;
+}
+
+//atividade 4
+private boolean isPosicaoLivre(int pos) {
+    return tabela[pos] == null;
+}
+
+//atividade 5
+public void inserir(String chave) throws Exception {
+    if (pesquisar(chave) != null) {
+        throw new Exception("Erro: insercao duplicada");
+    }
+
+    int pos = hash(chave);
+
+    if (isPosicaoLivre(pos)) {
+        tabela[pos] = chave;
+    } else if (nr < r) {
+        tabela[m + nr] = chave;
+        nr++;
+    } else {
+        throw new Exception("Erro: area de reserva cheia");
+    }
+}
