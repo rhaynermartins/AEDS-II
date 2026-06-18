@@ -468,16 +468,19 @@ void inserir(ArvoreLista* arvore, Restaurante* restaurante) {
 Restaurante* pesquisar_lista(CelulaLista* lista, char* nome, long long* comparacoes) {
     CelulaLista* atual = lista; // comeca no inicio da lista
     Restaurante* resp = NULL; // resposta inicial
+    int cmp; // guarda a comparacao entre o nome atual e o pesquisado
 
-    while (atual != NULL && resp == NULL) { // percorre enquanto nao achar
-        printf(" %s", atual->restaurante->nome); // imprime nome percorrido
+    while (atual != NULL && resp == NULL) { // percorre enquanto existir celula e nao encontrar
+        cmp = comparar_texto(atual->restaurante->nome, nome); // compara nome atual com o nome pesquisado
+        (*comparacoes)++; // conta comparacao realizada
 
-        (*comparacoes)++; // conta comparacao
-
-        if (comparar_texto(atual->restaurante->nome, nome) == 0) { // se encontrou
-            resp = atual->restaurante; // guarda restaurante
+        if (cmp < 0) { // se o nome atual vem antes do pesquisado
+            printf(" %s", atual->restaurante->nome); // imprime apenas nomes percorridos antes do alvo
+            atual = atual->prox; // avanca para o proximo da lista
+        } else if (cmp == 0) { // se encontrou o nome exato
+            resp = atual->restaurante; // guarda restaurante encontrado sem imprimir o proprio nome
         } else {
-            atual = atual->prox; // avanca
+            atual = NULL; // para a busca porque a lista esta ordenada e ja passou da posicao
         }
     }
 

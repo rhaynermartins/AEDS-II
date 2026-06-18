@@ -531,14 +531,8 @@ class ArvoreDeArvores {
 
     // construtor
     public ArvoreDeArvores() {
-        this.raiz = null; // inicia vazia
+        this.raiz = null; // inicia vazia, sem chaves pre-inseridas
         this.comparacoes = 0; // zera comparacoes
-
-        int[] ordem = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14}; // ordem balanceada das chaves
-
-        for (int i = 0; i < ordem.length; i++) { // percorre chaves
-            inserirPrimeiroNivel(ordem[i]); // insere chave no primeiro nivel
-        }
     }
 
     // retorna comparacoes
@@ -546,81 +540,58 @@ class ArvoreDeArvores {
         return this.comparacoes; // devolve comparacoes
     }
 
-    // insere chave no primeiro nivel
-    private void inserirPrimeiroNivel(int chave) {
-        this.raiz = inserirPrimeiroNivel(chave, this.raiz); // chama recursivo
-    }
-
-    // insercao recursiva no primeiro nivel
-    private NoPrimeiro inserirPrimeiroNivel(int chave, NoPrimeiro no) {
-        if (no == null) { // se posicao vazia
-            no = new NoPrimeiro(chave); // cria no
-        } else if (chave < no.chave) { // se chave menor
-            no.esq = inserirPrimeiroNivel(chave, no.esq); // insere esquerda
-        } else if (chave > no.chave) { // se chave maior
-            no.dir = inserirPrimeiroNivel(chave, no.dir); // insere direita
-        }
-
-        return no; // retorna no
-    }
-
-    // insere restaurante
+    // insere restaurante na estrutura
     public void inserir(Restaurante restaurante) {
-        int chave = restaurante.getCapacidade() % 15; // calcula chave do primeiro nivel
-        NoPrimeiro no = buscarNoPrimeiroNivel(chave, this.raiz); // busca no da chave
-
-        if (no != null) { // se achou chave
-            no.segunda.inserir(restaurante); // insere na AVL interna
-        }
+        int chave = restaurante.getCapacidade() % 15; // calcula capacidade mod 15
+        this.raiz = inserir(restaurante, chave, this.raiz); // insere na arvore do primeiro nivel
     }
 
-    // busca no do primeiro nivel pela chave
-    private NoPrimeiro buscarNoPrimeiroNivel(int chave, NoPrimeiro no) {
-        NoPrimeiro resp = null; // resposta
-
-        if (no != null) { // se no existe
-            if (chave == no.chave) { // se achou
-                resp = no; // guarda no
-            } else if (chave < no.chave) { // se menor
-                resp = buscarNoPrimeiroNivel(chave, no.esq); // vai esquerda
-            } else {
-                resp = buscarNoPrimeiroNivel(chave, no.dir); // vai direita
-            }
+    // insere no primeiro nivel pela chave e no segundo nivel pelo nome
+    private NoPrimeiro inserir(Restaurante restaurante, int chave, NoPrimeiro no) {
+        if (no == null) { // se ainda nao existe no com essa chave no caminho
+            no = new NoPrimeiro(chave); // cria no do primeiro nivel
+            no.segunda.inserir(restaurante); // insere restaurante na AVL interna
+        } else if (chave < no.chave) { // se chave for menor
+            no.esq = inserir(restaurante, chave, no.esq); // vai para esquerda
+        } else if (chave > no.chave) { // se chave for maior
+            no.dir = inserir(restaurante, chave, no.dir); // vai para direita
+        } else { // se encontrou a chave
+            no.segunda.inserir(restaurante); // insere na AVL interna da chave
         }
 
-        return resp; // retorna no
+        return no; // retorna no atualizado
     }
 
     // pesquisa por nome
     public void pesquisar(String nome) {
-        System.out.print("RAIZ"); // imprime raiz do primeiro nivel
+        System.out.print("RAIZ"); // imprime inicio da arvore do primeiro nivel
 
-        long[] comps = new long[1]; // vetor para comparacoes da AVL
-        Restaurante resp = pesquisar(nome, this.raiz, comps); // pesquisa
+        long[] comps = new long[1]; // vetor para contar comparacoes
+        Restaurante resp = pesquisar(nome, this.raiz, comps); // pesquisa em pre-ordem
 
-        this.comparacoes += comps[0]; // soma comparacoes da AVL
+        this.comparacoes += comps[0]; // acumula comparacoes
 
-        if (resp != null) { // se achou
-            System.out.println(" SIM " + resp.formatar()); // imprime SIM e restaurante
+        if (resp != null) { // se encontrou
+            System.out.println(" SIM " + resp.formatar()); // imprime SIM e restaurante formatado
         } else {
             System.out.println(" NAO"); // imprime NAO
         }
     }
 
-    // pesquisa recursiva no primeiro nivel
+    // pesquisa em pre-ordem: no atual, esquerda, direita
     private Restaurante pesquisar(String nome, NoPrimeiro no, long[] comps) {
         Restaurante resp = null; // resposta inicial
 
         if (no != null) { // se no existe
-            resp = no.segunda.pesquisar(nome, comps); // pesquisa na AVL deste no
+            resp = no.segunda.pesquisar(nome, comps); // pesquisa na AVL interna do no atual
 
-            if (resp == null) { // se nao achou
-                System.out.print(" ESQ"); // imprime caminho esquerda do primeiro nivel
+            if (resp == null) { // se nao encontrou no no atual
+                System.out.print(" ESQ"); // imprime ida para esquerda do primeiro nivel
                 resp = pesquisar(nome, no.esq, comps); // pesquisa esquerda
             }
 
-            if (resp == null) { // se ainda nao achou
-                System.out.print(" DIR"); // imprime caminho direita do primeiro nivel
+            if (resp == null) { // se ainda nao encontrou
+                System.out.print(" DIR"); // imprime ida para direita do primeiro nivel
                 resp = pesquisar(nome, no.dir, comps); // pesquisa direita
             }
         }

@@ -477,29 +477,29 @@ Restaurante* pesquisar_trie(ArvoreTrie* trie, char* nome) {
     NoTrie* atual = trie->raiz; // comeca na raiz
     Restaurante* resp = NULL; // resposta inicial
     int achou_caminho = 1; // controla se caminho existe
+    int imprimiu = 0; // controla espaco entre caracteres impressos
     int i = 0; // indice do nome
 
     while (nome[i] != '\0' && achou_caminho == 1) { // percorre nome enquanto caminho existir
-        printf("%c", nome[i]); // imprime caractere visitado
+        trie->comparacoes++; // conta tentativa de acessar o proximo no
 
-        trie->comparacoes++; // conta comparacao
-
-        NoTrie* filho = buscar_filho(atual, nome[i]); // busca filho
+        NoTrie* filho = buscar_filho(atual, nome[i]); // busca filho antes de imprimir
 
         if (filho == NULL) { // se nao existe caminho
-            achou_caminho = 0; // marca falha
+            achou_caminho = 0; // marca falha sem imprimir o caractere inexistente
         } else {
-            atual = filho; // avanca
-        }
+            if (imprimiu == 1) { // se ja imprimiu caractere anterior
+                printf(" "); // separa os caracteres por espaco
+            }
 
-        if (nome[i + 1] != '\0') { // se nao for ultimo caractere
-            printf(" "); // imprime espaco
+            printf("%c", nome[i]); // imprime somente caractere realmente visitado
+            imprimiu = 1; // marca que ja imprimiu caractere
+            atual = filho; // avanca na Trie
+            i++; // avanca para o proximo caractere
         }
-
-        i++; // avanca
     }
 
-    if (achou_caminho == 1 && atual->fim == 1) { // se achou palavra completa
+    if (achou_caminho == 1 && nome[i] == '\0' && atual->fim == 1) { // se achou palavra completa
         resp = atual->restaurante; // guarda restaurante
     }
 

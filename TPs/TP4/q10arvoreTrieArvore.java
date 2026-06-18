@@ -455,35 +455,35 @@ class ArvoreTrieArvore {
     // pesquisa nome
     public void pesquisar(String nome) {
         NoTrie atual = this.raiz; // comeca na raiz
-        boolean caminho = true; // controla se caminho existe
+        boolean caminho = true; // controla se o caminho ainda existe
+        boolean imprimiu = false; // controla espaco entre caracteres impressos
         int i = 0; // indice do nome
 
-        while (i < nome.length() && caminho) { // percorre nome enquanto possivel
-            char c = nome.charAt(i); // pega caractere
+        while (i < nome.length() && caminho) { // percorre caracteres enquanto existir caminho
+            char c = nome.charAt(i); // pega caractere atual
 
-            System.out.print(c); // imprime caractere visitado
+            this.comparacoes++; // conta tentativa de acesso ao proximo no
 
-            this.comparacoes++; // conta comparacao
-
-            NoTrie filho = atual.buscarFilho(c); // busca filho
+            NoTrie filho = atual.buscarFilho(c); // busca filho antes de imprimir
 
             if (filho == null) { // se nao existe filho
-                caminho = false; // marca falha
+                caminho = false; // para sem imprimir o caractere inexistente
             } else {
+                if (imprimiu) { // se ja imprimiu algum caractere antes
+                    System.out.print(" "); // separa os caracteres por espaco
+                }
+
+                System.out.print(c); // imprime somente caractere realmente visitado
+                imprimiu = true; // marca que ja imprimiu caractere
                 atual = filho; // avanca na Trie
+                i++; // avanca para o proximo caractere
             }
-
-            if (i < nome.length() - 1) { // se nao for ultimo caractere
-                System.out.print(" "); // imprime espaco
-            }
-
-            i++; // avanca indice
         }
 
-        if (caminho && atual.fim && atual.restaurante != null) { // se achou palavra completa
-            System.out.println(" SIM " + atual.restaurante.formatar()); // imprime SIM e restaurante
+        if (caminho && i == nome.length() && atual.fim && atual.restaurante != null) { // se achou palavra completa
+            System.out.println(" SIM " + atual.restaurante.formatar()); // imprime SIM separado do ultimo caractere visitado
         } else {
-            System.out.println(" NAO"); // imprime NAO
+            System.out.println(" NAO"); // imprime NAO apos os caracteres visitados
         }
     }
 }

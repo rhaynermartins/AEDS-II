@@ -387,16 +387,19 @@ class TabelaHash {
     }
 
     // insere restaurante
+    // insere restaurante
     public void inserir(Restaurante restaurante) {
         int pos = h(restaurante.getNome()); // calcula posicao principal
 
-        if (this.tabela[pos] == null) { // se posicao vazia
-            this.tabela[pos] = restaurante; // insere principal
+        if (this.tabela[pos] == null) { // se posicao principal esta vazia
+            this.tabela[pos] = restaurante; // insere na posicao principal
         } else {
-            int posReh = reh(restaurante.getNome()); // calcula rehash
+            int posReh = reh(restaurante.getNome()); // calcula segunda posicao com rehash
 
-            if (this.tabela[posReh] == null) { // se rehash vazio
-                this.tabela[posReh] = restaurante; // insere no rehash
+            if (this.tabela[posReh] == null) { // se a posicao do rehash esta vazia
+                this.tabela[posReh] = restaurante; // insere na posicao do rehash
+            } else {
+                System.out.println(restaurante.getNome()); // imprime nome se nao conseguiu inserir
             }
         }
     }
