@@ -1,8 +1,8 @@
 public class Atividades {
 
     public static void main(String[] args) {
-        System.out.println("Exercicio de estudo gerado em: 2026-11-17 09:33:50");
-        System.out.println("Numero base: 8547");
+        System.out.println("Exercicio de estudo gerado em: 2026-11-17 09:33:51");
+        System.out.println("Numero base: 3979");
 
         int[] valores = {5, 3, 8, 1, 2};
 
